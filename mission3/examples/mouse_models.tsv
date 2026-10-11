@@ -1,0 +1,5 @@
+model_id	model_name	mouse_gene_symbol	human_gene_symbol	allele_id	allele_type	zygosity	conditional
+MA	Model A	Genea	GENEA	A1	knockout	homozygous	false
+MB	Model B	Geneb	GENEB	B1	knockout	heterozygous	false
+MC	Model C	Genec	GENEC	C1	knockout	homozygous	false
+

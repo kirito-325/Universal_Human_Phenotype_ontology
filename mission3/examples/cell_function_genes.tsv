@@ -1,0 +1,4 @@
+function_id	function_name	gene_symbol	function_weight
+GO:1	Function one	GENEB	1.0
+GO:2	Function two	GENEC	0.2
+

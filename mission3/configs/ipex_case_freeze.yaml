@@ -1,0 +1,43 @@
+project:
+  name: IPEX single-cell case freeze
+  random_seed: 2026
+
+inputs:
+  diseases: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  hpo_cpo: /path/to/workspace/CPO_generize/HPO_link_v5/results/links/hpo_cpo_links.tsv.gz
+  go_functions: /path/to/workspace/CPO_generize/GO_function/results/go_function_genes.tsv
+  gold_standard: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+
+hpo_cpo:
+  confidence_column: geometric_consensus
+  min_confidence: 0.05
+  top_k_per_hpo: 25
+  specific_scope_weight: 1.0
+  general_scope_weight: 0.5
+  require_anatomy_allowed: true
+
+case_freeze:
+  disease_id: "OMIM:304790"
+  metadata: data/single_cell/ipex_gse167976/raw/GSE167976_metadata.tsv.gz
+  label_map: data/cases/ipex_single_cell_label_map.tsv
+  cl_obo: /path/to/workspace/CPO_generize/HPO_link_v6/data/ontologies/cl.obo
+  genotype_column: genotype
+  donor_column: donor
+  cohort_column: cohort
+  cell_label_column: Cluster_Annotation_General
+  disease_value: IPEX
+  control_value: HD
+  min_donors_per_condition: 4
+  min_cells_per_donor_cell: 20
+  min_function_genes: 5
+  max_ontology_distance: 0
+  datasets:
+    - dataset_id: GSE167976_cohort1
+      metadata_cohort: cohort_1
+      excluded_donors: []
+    - dataset_id: GSE167976_cohort2_disjoint
+      metadata_cohort: cohort_2
+      excluded_donors: [B4, B5, P4]
+  expected_directions:
+    GO:0045066: decreased
+

@@ -1,0 +1,189 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "chunk_chars": {
+      "default": 16000,
+      "minimum": 1000,
+      "title": "Chunk Chars",
+      "type": "integer"
+    },
+    "chunk_overlap": {
+      "default": 800,
+      "minimum": 0,
+      "title": "Chunk Overlap",
+      "type": "integer"
+    },
+    "eval_timeout_seconds": {
+      "default": 900,
+      "exclusiveMinimum": 0,
+      "title": "Eval Timeout Seconds",
+      "type": "number"
+    },
+    "llm_workers": {
+      "default": 3,
+      "maximum": 64,
+      "minimum": 1,
+      "title": "Llm Workers",
+      "type": "integer"
+    },
+    "max_chunks_per_paper": {
+      "default": 16,
+      "minimum": 1,
+      "title": "Max Chunks Per Paper",
+      "type": "integer"
+    },
+    "max_full_texts": {
+      "default": 8,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Max Full Texts",
+      "type": "integer"
+    },
+    "max_normalization_tool_calls": {
+      "default": 12,
+      "minimum": 1,
+      "title": "Max Normalization Tool Calls",
+      "type": "integer"
+    },
+    "max_papers": {
+      "default": 40,
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Papers",
+      "type": "integer"
+    },
+    "max_ptc_calls": {
+      "default": 256,
+      "minimum": 1,
+      "title": "Max Ptc Calls",
+      "type": "integer"
+    },
+    "max_redundant_reads": {
+      "default": 8,
+      "minimum": 2,
+      "title": "Max Redundant Reads",
+      "type": "integer"
+    },
+    "max_repeated_tool_results": {
+      "default": 3,
+      "minimum": 2,
+      "title": "Max Repeated Tool Results",
+      "type": "integer"
+    },
+    "max_searches": {
+      "default": 30,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Max Searches",
+      "type": "integer"
+    },
+    "max_subagent_calls": {
+      "default": 120,
+      "maximum": 2000,
+      "minimum": 1,
+      "title": "Max Subagent Calls",
+      "type": "integer"
+    },
+    "min_discovery_directions": {
+      "default": 5,
+      "minimum": 3,
+      "title": "Min Discovery Directions",
+      "type": "integer"
+    },
+    "min_discovery_papers": {
+      "default": 5,
+      "minimum": 1,
+      "title": "Min Discovery Papers",
+      "type": "integer"
+    },
+    "min_hypotheses": {
+      "default": 5,
+      "minimum": 5,
+      "title": "Min Hypotheses",
+      "type": "integer"
+    },
+    "model_connection_retries": {
+      "default": 4,
+      "maximum": 12,
+      "minimum": 0,
+      "title": "Model Connection Retries",
+      "type": "integer"
+    },
+    "model_min_interval_seconds": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Model Min Interval Seconds",
+      "type": "number"
+    },
+    "model_rate_limit_retries": {
+      "default": 4,
+      "maximum": 12,
+      "minimum": 0,
+      "title": "Model Rate Limit Retries",
+      "type": "integer"
+    },
+    "model_request_timeout_seconds": {
+      "default": 120,
+      "exclusiveMinimum": 0,
+      "title": "Model Request Timeout Seconds",
+      "type": "number"
+    },
+    "model_retry_base_seconds": {
+      "default": 15,
+      "minimum": 0,
+      "title": "Model Retry Base Seconds",
+      "type": "number"
+    },
+    "offline": {
+      "default": false,
+      "title": "Offline",
+      "type": "boolean"
+    },
+    "recursion_limit": {
+      "default": 100,
+      "minimum": 5,
+      "title": "Recursion Limit",
+      "type": "integer"
+    },
+    "results_per_search": {
+      "default": 10,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Results Per Search",
+      "type": "integer"
+    },
+    "run_mode": {
+      "default": "research",
+      "enum": [
+        "research",
+        "smoke_test"
+      ],
+      "title": "Run Mode",
+      "type": "string"
+    },
+    "term_workers": {
+      "default": 1,
+      "maximum": 32,
+      "minimum": 1,
+      "title": "Term Workers",
+      "type": "integer"
+    },
+    "timeout_seconds": {
+      "default": 900,
+      "exclusiveMinimum": 0,
+      "title": "Timeout Seconds",
+      "type": "number"
+    },
+    "workflow_mode": {
+      "default": "literature_first",
+      "enum": [
+        "literature_first",
+        "component_test"
+      ],
+      "title": "Workflow Mode",
+      "type": "string"
+    }
+  },
+  "title": "Settings",
+  "type": "object"
+}

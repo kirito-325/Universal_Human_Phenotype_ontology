@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "state_version": {
+      "minimum": 0,
+      "title": "State Version",
+      "type": "integer"
+    },
+    "stop_reason": {
+      "enum": [
+        "sufficient_evidence",
+        "budget_exhausted",
+        "no_evidence",
+        "needs_curation"
+      ],
+      "title": "Stop Reason",
+      "type": "string"
+    },
+    "summary": {
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "state_version",
+    "stop_reason",
+    "summary",
+    "limitations"
+  ],
+  "title": "ResearchCompletion",
+  "type": "object"
+}

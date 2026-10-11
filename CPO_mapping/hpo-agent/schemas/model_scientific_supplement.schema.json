@@ -1,0 +1,437 @@
+{
+  "$defs": {
+    "ExperimentSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "default": "supports",
+          "enum": [
+            "supports",
+            "contradicts"
+          ],
+          "title": "Effect",
+          "type": "string"
+        },
+        "evidence_ref": {
+          "description": "A read passage containing this actual study finding. The host copies its exact text, source and offsets.",
+          "minLength": 1,
+          "title": "Evidence Ref",
+          "type": "string"
+        },
+        "experimental_context": {
+          "minLength": 1,
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "finding": {
+          "description": "Actual study result, separately from your extrapolation. Reviews/speculation are not experiments. Not reporting a phenotype is not evidence that it was measured and absent.",
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The study's actual tested scope. Whole_claim requires the complete prediction and applicable species/model/anatomy/conditions; other-model findings usually support only a component.",
+          "enum": [
+            "cell_identity",
+            "cell_abnormality",
+            "mechanism",
+            "phenotype_link",
+            "whole_claim"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "species": {
+          "description": "Actual study species, not the species of the prediction or the gene alone.",
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "study_type": {
+          "enum": [
+            "observation",
+            "pathology",
+            "intervention"
+          ],
+          "title": "Study Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_ref",
+        "scope",
+        "study_type",
+        "species",
+        "experimental_context",
+        "finding"
+      ],
+      "title": "ExperimentSelection",
+      "type": "object"
+    },
+    "PartialAbnormalityReason": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "anyOf": [
+            {
+              "enum": [
+                "increased",
+                "decreased",
+                "abnormal",
+                "absent",
+                "present",
+                "bidirectional",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direction"
+        },
+        "evidence_refs": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Refs"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "process_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Process Text"
+        },
+        "quality_text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quality Text"
+        }
+      },
+      "title": "PartialAbnormalityReason",
+      "type": "object"
+    },
+    "PartialCellReason": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Text"
+        },
+        "evidence_refs": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Refs"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        }
+      },
+      "title": "PartialCellReason",
+      "type": "object"
+    },
+    "PartialCellularProposal": {
+      "additionalProperties": false,
+      "properties": {
+        "abnormality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialAbnormalityReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "assumptions": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assumptions"
+        },
+        "cell": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialCellReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "disease_context": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disease Context"
+        },
+        "experimental_evidence": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ExperimentSelection"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experimental Evidence"
+        },
+        "phenotype_link": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartialPhenotypeReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "PartialCellularProposal",
+      "type": "object"
+    },
+    "PartialPhenotypeReason": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Refs"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "relation_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "associated_with",
+                "mechanistically_compatible_with"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relation Type"
+        }
+      },
+      "title": "PartialPhenotypeReason",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claim": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PartialCellularProposal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "contradicting_evidence_refs": {
+      "anyOf": [
+        {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Contradicting Evidence Refs"
+    },
+    "decision": {
+      "anyOf": [
+        {
+          "enum": [
+            "retain",
+            "reject",
+            "inconclusive"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Decision"
+    },
+    "rationale": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rationale"
+    },
+    "search_limitations": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Search Limitations"
+    },
+    "supporting_evidence_refs": {
+      "anyOf": [
+        {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Supporting Evidence Refs"
+    }
+  },
+  "title": "ScientificSupplement",
+  "type": "object"
+}

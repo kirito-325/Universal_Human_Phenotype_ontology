@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-08-11T09:08:10.812325+00:00",
+  "method": {
+    "test": "one-sided hypergeometric enrichment",
+    "observation_unit": "paper x table_type x expanded_catalog_id",
+    "background": "all other expanded-cell evidence opportunities",
+    "multiple_testing": "Benjamini-Hochberg within each cell over the global gene universe",
+    "q_threshold": 0.05,
+    "minimum_marker_score": 3,
+    "minimum_odds_ratio_exclusive": 1.0,
+    "significance_score": "-log10(q_value)"
+  },
+  "inputs": {
+    "marker_scores": "/path/to/workspace/marker_literuture/marker_statistics/expanded_marker_scores.tsv",
+    "cell_evidence_opportunities": "/path/to/workspace/marker_literuture/marker_statistics/expanded_cell_evidence_opportunities.tsv"
+  },
+  "outputs": {
+    "significant_marker_scores": "/path/to/workspace/marker_literuture/marker_statistics/significant_marker_scores.tsv",
+    "cell_summary": "/path/to/workspace/marker_literuture/marker_statistics/significant_marker_cell_summary.tsv"
+  },
+  "total_cell_evidence_opportunities": 9881,
+  "gene_universe": 32126,
+  "tested_marker_pairs": 1960666,
+  "tested_standard_cells": 785,
+  "significant_marker_pairs": 67295,
+  "standard_cells_with_significant_markers": 300
+}

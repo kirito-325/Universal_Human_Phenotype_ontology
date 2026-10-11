@@ -1,0 +1,85 @@
+{
+  "snapshot_date": "2026-10-11",
+  "sources": [
+    {
+      "source": "life-sci-agent/hpo-agent",
+      "destination": "CPO_mapping/hpo-agent",
+      "files": 101
+    },
+    {
+      "source": "life-sci-agent/mpo-agent",
+      "destination": "CPO_mapping/mpo-agent",
+      "files": 62
+    },
+    {
+      "source": "life-sci-agent/aligment_test",
+      "destination": "CPO_mapping/aligment_test",
+      "files": 3
+    },
+    {
+      "source": "marker_literuture",
+      "destination": "marker_literuture",
+      "files": 58
+    },
+    {
+      "source": "UHPO（6-8）/cell_lineage/scripts",
+      "destination": "CPO_construction/cell_lineage/scripts",
+      "files": 8
+    },
+    {
+      "source": "mission3",
+      "destination": "mission3",
+      "files": 105
+    },
+    {
+      "source": "CPO_generize/GO_link",
+      "destination": "CPO_generize/GO_link",
+      "files": 10
+    },
+    {
+      "source": "CPO_generize/GO_function",
+      "destination": "CPO_generize/GO_function",
+      "files": 3
+    },
+    {
+      "source": "CPO_generize/cell_marker",
+      "destination": "CPO_generize/cell_marker",
+      "files": 3
+    },
+    {
+      "source": "CPO_generize/celltype_configure",
+      "destination": "CPO_generize/celltype_configure",
+      "files": 8
+    },
+    {
+      "source": "CPO_generize/llm_api",
+      "destination": "CPO_generize/llm_api",
+      "files": 2
+    },
+    {
+      "source": "CPO_generize/mission3",
+      "destination": "CPO_generize/mission3",
+      "files": 40
+    },
+    {
+      "source": "CPO_generize/mission4",
+      "destination": "CPO_generize/mission4",
+      "files": 55
+    },
+    {
+      "source": "CPO_generize/MPO_HPO_mapping_v4",
+      "destination": "CPO_generize/MPO_HPO_mapping_v4",
+      "files": 27
+    },
+    {
+      "source": "CPO_generize/MPO_HPO_mapping_v2",
+      "destination": "legacy/MPO_HPO_mapping",
+      "files": 21
+    },
+    {
+      "source": "CPO_generize/UHPO",
+      "destination": "CPO_generize/UHPO",
+      "files": 72
+    }
+  ]
+}

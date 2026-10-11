@@ -1,0 +1,13 @@
+{
+  "min_hypotheses": 1,
+  "min_discovery_directions": 3,
+  "min_discovery_papers": 1,
+  "max_searches": 30,
+  "max_papers": 40,
+  "max_full_texts": 8,
+  "max_total_searches": 300,
+  "max_total_subagent_calls": 240,
+  "max_models": null,
+  "timeout_seconds": 14400,
+  "recursion_limit": 600
+}

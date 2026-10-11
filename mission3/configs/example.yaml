@@ -1,0 +1,43 @@
+project:
+  name: CellPhenoRank synthetic example
+  random_seed: 2026
+  evaluation_mode: practical
+
+inputs:
+  diseases: examples/disease_hpo.tsv
+  models: examples/mouse_models.tsv
+  model_phenotypes: examples/model_mpo.tsv
+  similarity: examples/hpo_mpo_similarity.tsv
+  hpo_cpo: examples/hpo_cpo.tsv
+  cell_markers: examples/cell_markers.tsv
+  go_functions: examples/cell_function_genes.tsv
+  gold_standard: examples/disease_genes.tsv
+
+model_scoring:
+  reverse_match_weight: 1.0
+  bma_weight: 0.8
+  max_pair_weight: 0.2
+
+hpo_cpo:
+  confidence_column: confidence
+  min_confidence: 0.1
+  top_k_per_hpo: 10
+  general_scope_weight: 1.0
+
+gene_set_scoring:
+  function_weight: 0.65
+  marker_weight: 0.25
+  interaction_weight: 0.10
+  use_idf: false
+
+rank_fusion:
+  lambda: 1.0
+  coverage_mode: disease
+
+benchmark:
+  bootstrap_iterations: 100
+
+null_models:
+  enabled: true
+  iterations: 20
+

@@ -1,0 +1,6 @@
+mp_id	mp_name	hp_id	hp_name	relation	semantic_score
+MP:TEST0001	decreased circulating glucose	HP:TEST0001	Hypoglycemia	exact	0.95
+MP:TEST0002	increased insulin secretion	HP:TEST0002	Increased insulin secretion	exact	0.94
+MP:TEST0003	decreased circulating glucose	HP:TEST0001	Hypoglycemia	exact	0.86
+MP:TEST0004	increased insulin secretion	HP:TEST0002	Increased insulin secretion	exact	0.82
+MP:TEST0005	abnormal glucose tolerance	HP:TEST0003	Abnormal glucose tolerance	exact	0.90

@@ -1,0 +1,26 @@
+{
+  "host_records": [
+    "hypothesis_batch.schema.json",
+    "hypothesis_assessment.schema.json",
+    "observation.schema.json",
+    "term_result.schema.json",
+    "research_completion.schema.json"
+  ],
+  "legacy_component_only": [
+    "assessment_repair.schema.json"
+  ],
+  "model_contract": "compact_v2",
+  "production_submissions": {
+    "ResearchCompletion": "model_completion.schema.json",
+    "Review": "model_review.schema.json",
+    "SubmitAssessment": "model_assessment.schema.json",
+    "SubmitHypotheses": "model_hypotheses.schema.json",
+    "SubmitMapping": "model_mapping.schema.json"
+  },
+  "schema_version": "2.0",
+  "scientific_completion_submission": {
+    "SubmitAssessment": "model_scientific_supplement.schema.json",
+    "maximum_attempts": 1,
+    "mode": "complete_reasoning"
+  }
+}

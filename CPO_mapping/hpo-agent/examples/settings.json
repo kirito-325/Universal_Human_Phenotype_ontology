@@ -1,0 +1,20 @@
+{
+  "min_hypotheses": 5,
+  "min_discovery_directions": 5,
+  "min_discovery_papers": 5,
+  "max_searches": 30,
+  "results_per_search": 10,
+  "max_papers": 40,
+  "max_full_texts": 8,
+  "chunk_chars": 16000,
+  "chunk_overlap": 800,
+  "max_chunks_per_paper": 16,
+  "term_workers": 1,
+  "llm_workers": 3,
+  "timeout_seconds": 900,
+  "recursion_limit": 100,
+  "max_subagent_calls": 120,
+  "eval_timeout_seconds": 900,
+  "max_ptc_calls": 256,
+  "offline": false
+}

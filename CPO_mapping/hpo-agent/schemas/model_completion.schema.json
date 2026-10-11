@@ -1,0 +1,35 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "stop_reason": {
+      "enum": [
+        "sufficient_evidence",
+        "budget_exhausted",
+        "no_evidence",
+        "needs_curation"
+      ],
+      "title": "Stop Reason",
+      "type": "string"
+    },
+    "summary": {
+      "description": "Scientific synthesis and limitations, not a hand-counted workflow report. The host adds exact counts and current state_version.",
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stop_reason",
+    "summary",
+    "limitations"
+  ],
+  "title": "ScientificCompletion",
+  "type": "object"
+}

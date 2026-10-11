@@ -1,0 +1,43 @@
+project:
+  name: CellPhenoRank frozen benchmark v4
+  random_seed: 2026
+  evaluation_mode: practical
+
+inputs:
+  diseases: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  similarity: /path/to/workspace/CPO_generize/MPO_HPO_mapping_v3/results/full_v31_20260804/mpo_hpo_mapping_v31.tsv
+  hpo_cpo: /path/to/workspace/CPO_generize/HPO_link_v5/results/links/hpo_cpo_links.tsv.gz
+  cell_markers: /path/to/workspace/marker_literuture/marker_statistics/significant_marker_scores.tsv
+  go_functions: /path/to/workspace/CPO_generize/GO_function/results/go_function_genes.tsv
+  gold_standard: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: /path/to/workspace/CPO_generize/mission3/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+
+similarity:
+  score_columns: [bi_score, score]
+  relation_factors:
+    exact: 1.0
+    hp_broader: 0.9
+    hp_narrower: 0.8
+    uncertain: 0.7
+
+hpo_cpo:
+  confidence_column: geometric_consensus
+  min_confidence: 0.05
+  top_k_per_hpo: 25
+  specific_scope_weight: 1.0
+  general_scope_weight: 0.5
+  require_anatomy_allowed: true
+
+rank_fusion:
+  lambda: 0.2
+  coverage_mode: disease
+
+benchmark:
+  bootstrap_iterations: 1000
+
+null_models:
+  enabled: true
+  iterations: 500
+

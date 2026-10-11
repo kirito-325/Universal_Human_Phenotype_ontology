@@ -1,0 +1,4 @@
+* text=auto whitespace=-blank-at-eof
+# Markdown hard breaks and empty final TSV fields are meaningful whitespace.
+*.md whitespace=-blank-at-eol,-blank-at-eof
+*.tsv whitespace=-blank-at-eol,-blank-at-eof

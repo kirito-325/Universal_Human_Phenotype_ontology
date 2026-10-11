@@ -1,0 +1,16 @@
+format-version: 1.2
+
+[Term]
+id: CL:0000000
+name: cell
+
+[Term]
+id: CL:TEST0001
+name: beta cell
+is_a: CL:0000000 ! cell
+
+[Term]
+id: CL:TEST0002
+name: hepatocyte
+is_a: CL:0000000 ! cell
+

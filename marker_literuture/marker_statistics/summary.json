@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-08-11T09:07:39.201961+00:00",
+  "score_rule": {
+    "unit": "paper x table_type x expanded_catalog_id x gene",
+    "statistics_points_per_paper_pair_max": 1,
+    "signatures_points_per_paper_pair_max": 1,
+    "total_points_per_paper_pair_max": 2,
+    "statistics_input": "marker_statistics_cleaned.csv",
+    "signatures_input": "marker_signatures_cleaned.tsv",
+    "gene_policy": "HGNC-approved human symbols from auditable cleaned inputs"
+  },
+  "inputs": {
+    "papers_dir": "/path/to/workspace/marker_literuture/database/papers",
+    "top1_mapping": "/path/to/workspace/marker_literuture/database/cell_name_catalog_matches.tsv",
+    "expanded_catalog": "/path/to/workspace/marker_literuture/expanded/expanded_cell_catalog.tsv",
+    "catalog_nodes": 1538,
+    "mapping_rows": 26221,
+    "mapped_source_names": 11392,
+    "mapping_has_decisions": true,
+    "require_adjudicated_mapping": true,
+    "accepted_mapping_decisions": [
+      "exact_auto",
+      "match"
+    ],
+    "mapping_decision_counts": {
+      "exact_auto": 969,
+      "match": 10423,
+      "no_match": 12503,
+      "review": 2326
+    },
+    "embedding_models": []
+  },
+  "papers_processed": 3389,
+  "duplicate_paper_directories_skipped": 0,
+  "table_metrics": {
+    "statistics": {
+      "files_read": 3389,
+      "input_occurrences": 10242972,
+      "mapped_occurrences": 4939450,
+      "unmapped_occurrences": 5303522,
+      "empty_cell_or_gene": 0,
+      "awarded_points": 3512797,
+      "duplicate_occurrences_collapsed": 1426653
+    },
+    "signatures": {
+      "files_read": 3389,
+      "input_occurrences": 3578935,
+      "mapped_occurrences": 994379,
+      "unmapped_occurrences": 2584556,
+      "empty_cell_or_gene": 0,
+      "awarded_points": 914534,
+      "duplicate_occurrences_collapsed": 79845
+    }
+  },
+  "scores": {
+    "marker_pairs": 1960666,
+    "top_marker_pairs": 70462,
+    "top_markers_per_cell": 100,
+    "standard_cells_with_markers": 785,
+    "max_score": 175,
+    "standard_cells_with_opportunities": 785,
+    "total_cell_opportunities": 9881,
+    "statistics_points": 3512797,
+    "signatures_points": 914534,
+    "total_points": 4427331
+  },
+  "unmapped_unique_cell_names": 57670,
+  "outputs": {
+    "marker_scores": "/path/to/workspace/marker_literuture/marker_statistics/expanded_marker_scores.tsv",
+    "top_marker_scores": "/path/to/workspace/marker_literuture/marker_statistics/expanded_marker_scores_top100.tsv",
+    "cell_evidence_opportunities": "/path/to/workspace/marker_literuture/marker_statistics/expanded_cell_evidence_opportunities.tsv",
+    "unmapped_cell_names": "/path/to/workspace/marker_literuture/marker_statistics/unmapped_cell_names.tsv"
+  },
+  "failure_count": 0,
+  "errors": []
+}

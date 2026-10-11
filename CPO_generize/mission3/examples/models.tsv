@@ -1,0 +1,4 @@
+model_id	model_name	mouse_gene_symbol	human_gene_symbol	allele_id	allele_type	zygosity	conditional	cre_driver	genetic_background	sex	life_stage	availability	known_disease_ids
+MGI:MODEL_A	Gene1 homozygous null	Gene1	GENE1	MGI:ALLELE_A	null	homozygous	false		C57BL/6J	both	adult	available	
+MGI:MODEL_B	Gene1 heterozygous null	Gene1	GENE1	MGI:ALLELE_B	null	heterozygous	false		C57BL/6J	both	adult	available	EXAMPLE:1
+

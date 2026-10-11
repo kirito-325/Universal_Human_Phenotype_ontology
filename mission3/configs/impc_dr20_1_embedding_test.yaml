@@ -1,0 +1,19 @@
+project:
+  name: IMPC DR20.1 SapBERT agreement test
+  evaluation_mode: impc_dr20_1_gene_level
+  random_seed: 2026
+
+inputs:
+  official_freeze_manifest: data/benchmark/impc_dr20_1_2024_reproduction_v1/freeze_manifest.json
+  profile_manifest: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/profile_manifest.json
+  diseases: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/evaluation_inputs/diseases.tsv
+  models: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/evaluation_inputs/models.tsv
+  model_phenotypes: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/evaluation_inputs/model_phenotypes.tsv
+  gene_units: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/evaluation_inputs/gene_units.tsv
+  disease_gene_gold: data/benchmark/impc_dr20_1_2024_reproduction_v1/raw_profiles/withheld_truth/disease_gene_gold.tsv
+  gene_level_truth: data/benchmark/impc_dr20_1_2024_reproduction_v1/withheld_truth/gene_level_truth.tsv
+  embedding_label: data/embeddings/impc_dr20_1_2024/sapbert_label_cls.npz
+  embedding_synonym: data/embeddings/impc_dr20_1_2024/sapbert_exact_synonym_centroid_cls.npz
+
+benchmark:
+  bootstrap_iterations: 1000

@@ -1,0 +1,5 @@
+disease_id	disease_name	hpo_id	hpo_name	weight	is_core	gene_symbol
+D1	Synthetic disease	HP:1	Feature one	1	true	GENEB
+D1	Synthetic disease	HP:2	Feature two	1	true	GENEB
+D1	Synthetic disease	HP:3	Feature three	1	true	GENEB
+

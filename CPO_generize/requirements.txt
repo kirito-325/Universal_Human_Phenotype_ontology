@@ -1,0 +1,13 @@
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11
+networkx>=3.0
+obonet>=1.0
+PyYAML>=6.0
+h5py>=3.10
+pyarrow>=14
+jsonschema>=4.0
+
+# Optional semantic retrieval and structural-embedding dependencies
+torch>=2.0
+transformers>=4.40

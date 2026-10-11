@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>细胞 Marker 证据浏览器</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <h1>细胞 Marker 证据浏览器</h1>
+      <span id="buildStamp">数据加载中</span>
+    </div>
+    <dl class="headline" aria-label="数据概览">
+      <div><dt>有 Marker 的细胞</dt><dd id="statCells">--</dd></div>
+      <div><dt>已映射名称</dt><dd id="statAliases">--</dd></div>
+      <div><dt>Cell-Marker 对</dt><dd id="statMarkers">--</dd></div>
+      <div><dt>来源论文</dt><dd id="statPapers">--</dd></div>
+    </dl>
+  </header>
+
+  <section class="global-toolbar" aria-label="全局筛选">
+    <label class="search-field">
+      <span>搜索</span>
+      <input id="globalSearch" type="search" placeholder="标准名称、CL ID、非标准名称" autocomplete="off">
+    </label>
+    <div class="segment" id="treeMode" aria-label="目录范围">
+      <button type="button" data-mode="evidence" class="active">有 Marker</button>
+      <button type="button" data-mode="all">全部目录</button>
+    </div>
+    <button id="expandAll" class="quiet-command" type="button">展开</button>
+    <button id="collapseAll" class="quiet-command" type="button">收起</button>
+  </section>
+
+  <main class="workspace">
+    <aside class="tree-panel" aria-label="标准细胞目录树">
+      <div class="panel-heading">
+        <div><strong>标准细胞树</strong><span id="treeCount">--</span></div>
+        <span class="legend"><i></i>有 Marker</span>
+      </div>
+      <div id="cellTree" class="tree" role="tree"></div>
+    </aside>
+
+    <section class="cell-panel" aria-label="细胞详情">
+      <header class="cell-header">
+        <div class="cell-title-line">
+          <div>
+            <h2 id="cellTitle">--</h2>
+            <p id="cellIdentity">--</p>
+          </div>
+          <span id="cellRank" class="rank-label">--</span>
+        </div>
+        <dl class="cell-metrics">
+          <div><dt>Marker</dt><dd id="cellMarkerCount">--</dd></div>
+          <div><dt>映射名称</dt><dd id="cellAliasCount">--</dd></div>
+          <div><dt>总证据分</dt><dd id="cellPoints">--</dd></div>
+          <div><dt>论文机会</dt><dd id="cellPapers">--</dd></div>
+        </dl>
+      </header>
+
+      <div class="tabs" role="tablist">
+        <button id="markerTab" type="button" role="tab" class="active" data-tab="markers">Marker</button>
+        <button id="aliasTab" type="button" role="tab" data-tab="aliases">名称映射</button>
+      </div>
+
+      <section id="markersView" class="data-view">
+        <div class="table-toolbar">
+          <label class="compact-search"><span>筛选 Marker</span><input id="markerSearch" type="search" placeholder="基因符号"></label>
+          <label class="compact-select"><span>排序</span><select id="markerSort"><option value="score">总证据分</option><option value="statistics">Statistics</option><option value="signatures">Signatures</option><option value="gene">基因名称</option></select></label>
+          <span id="markerResultCount" class="result-count">--</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table marker-table">
+            <thead><tr><th class="rank-col">#</th><th>Marker</th><th class="num-col">总分</th><th class="num-col">Statistics</th><th class="num-col">Signatures</th></tr></thead>
+            <tbody id="markerRows"></tbody>
+          </table>
+        </div>
+        <button id="moreMarkers" class="load-more" type="button" hidden>加载更多</button>
+      </section>
+
+      <section id="aliasesView" class="data-view" hidden>
+        <div class="table-toolbar">
+          <label class="compact-search"><span>筛选名称</span><input id="aliasSearch" type="search" placeholder="非标准名称"></label>
+          <span id="aliasResultCount" class="result-count">--</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table alias-table">
+            <thead><tr><th>非标准名称</th><th>决策</th><th class="num-col">相似度</th><th class="num-col">论文数</th><th>来源表</th></tr></thead>
+            <tbody id="aliasRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <aside class="evidence-panel" aria-label="Marker 与论文证据">
+      <header class="evidence-header">
+        <div>
+          <span id="evidenceKind" class="eyebrow">Marker 证据</span>
+          <h2 id="evidenceTitle">--</h2>
+          <p id="evidenceSubtitle">--</p>
+        </div>
+      </header>
+      <div id="evidenceSummary" class="evidence-summary"></div>
+      <div id="evidenceBody" class="evidence-body"></div>
+    </aside>
+  </main>
+
+  <div id="fatalError" class="fatal-error" hidden></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

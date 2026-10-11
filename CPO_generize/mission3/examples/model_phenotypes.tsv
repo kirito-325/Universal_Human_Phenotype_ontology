@@ -1,0 +1,6 @@
+model_id	mp_id	mp_name	status	direction	sex	life_stage	procedure_id	parameter_id	source
+MGI:MODEL_A	MP:TEST0001	decreased circulating glucose	abnormal	decreased	both	adult	IMPRESS:METABOLISM	PARAM:GLUCOSE	IMPC
+MGI:MODEL_A	MP:TEST0002	increased insulin secretion	abnormal	increased	both	adult	IMPRESS:INSULIN	PARAM:INSULIN	IMPC
+MGI:MODEL_A	MP:TEST0005	abnormal glucose tolerance	tested_normal	unknown	both	adult	IMPRESS:GTT	PARAM:GTT	IMPC
+MGI:MODEL_B	MP:TEST0003	decreased circulating glucose	abnormal	decreased	both	adult	IMPRESS:METABOLISM	PARAM:GLUCOSE	IMPC
+MGI:MODEL_B	MP:TEST0004	increased insulin secretion	abnormal	increased	both	adult	IMPRESS:INSULIN	PARAM:INSULIN	IMPC

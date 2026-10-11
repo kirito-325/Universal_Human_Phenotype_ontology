@@ -1,0 +1,48 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "definition": {
+      "default": "",
+      "title": "Definition",
+      "type": "string"
+    },
+    "disease_contexts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Disease Contexts",
+      "type": "array"
+    },
+    "label": {
+      "minLength": 1,
+      "title": "Label",
+      "type": "string"
+    },
+    "phenotype_id": {
+      "pattern": "^HP:[0-9]{7}$",
+      "title": "Phenotype Id",
+      "type": "string"
+    },
+    "seed_pmids": {
+      "items": {
+        "pattern": "^[0-9]+$",
+        "type": "string"
+      },
+      "title": "Seed Pmids",
+      "type": "array"
+    },
+    "synonyms": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Synonyms",
+      "type": "array"
+    }
+  },
+  "required": [
+    "phenotype_id",
+    "label"
+  ],
+  "title": "Phenotype",
+  "type": "object"
+}

@@ -1,0 +1,37 @@
+project_root: /path/to/workspace/CPO_generize
+module_root: MPO_HPO_mapping_v4
+benchmark:
+  root: mission3/data/benchmark/benchmark_v4/frozen
+  diseases: mission3/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: mission3/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: mission3/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  gold_models: mission3/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: mission3/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+mission3:
+  project_root: /path/to/workspace/mission3
+  source_root: /path/to/workspace/mission3/src
+  config_2602: /path/to/workspace/mission3/configs/real_frozen_parameter_free_2602.yaml
+  baseline_output_2602: /path/to/workspace/mission3/outputs/parameter_free_2602
+  exomiser_2602_matrix: /path/to/workspace/mission3/data/external/exomiser_2602/current_matrix/hp_mp_mappings_2602.tsv.gz
+  exomiser_2602_presence: /path/to/workspace/mission3/data/external/exomiser_2602/current_matrix/candidate_mpo_presence_2602.tsv
+mission4:
+  root: mission4/results/cpo_mapping_gene_v2
+  hpo_index: mission4/results/cpo_mapping_gene_v2/indices/hpo_index.tsv
+  mpo_index: mission4/results/cpo_mapping_gene_v2/indices/mpo_index.tsv
+  assertions: mission4/results/cpo_mapping_gene_v2/normalized/assertions.parquet
+  structure_membership: mission4/results/cpo_mapping_gene_v2/profiles/structure_membership.parquet
+  structure_provenance: mission4/results/cpo_mapping_gene_v2/profiles/structure_provenance.parquet
+  legacy_matrix: mission4/results/cpo_mapping_gene_v2/matrices/hpo_mpo_cpo.h5
+  run_manifest: mission4/results/cpo_mapping_gene_v2/run_manifest.json
+ontologies:
+  hpo: /path/to/workspace/HPO_expand/gene-to-phenotype/data/HPO/script/hp.obo
+  mpo: 03_MPO_link/data/processed/mpo_clean/mpo_clean.obo
+  cl: HPO_link_v6/data/ontologies/cl.obo
+  go: HPO_link_v6/data/ontologies/go-basic.obo
+encoder:
+  path: /path/to/home/.cache/huggingface/hub/models--cambridgeltl--SapBERT-from-PubMedBERT-fulltext/snapshots/090663c3ae57bf35ffe4d0d468a2a88d03051a4d
+  revision: 090663c3ae57bf35ffe4d0d468a2a88d03051a4d
+legacy_semantics:
+  vectors: MPO_HPO_mapping_v3/results/full_v31_20260804/data/processed/phenotype_semantics.npz
+  manifest: MPO_HPO_mapping_v3/results/full_v31_20260804/training_manifest.json
+

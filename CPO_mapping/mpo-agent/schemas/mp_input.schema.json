@@ -1,0 +1,20 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "include_descendants": {
+      "default": false,
+      "title": "Include Descendants",
+      "type": "boolean"
+    },
+    "phenotype_id": {
+      "pattern": "^MP:[0-9]{7}$",
+      "title": "Phenotype Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "phenotype_id"
+  ],
+  "title": "MPInput",
+  "type": "object"
+}

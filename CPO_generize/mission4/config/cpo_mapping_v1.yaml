@@ -1,0 +1,62 @@
+run_name: cpo_mapping_v1
+project_root: .
+output_dir: results/cpo_mapping_v1
+inputs:
+  hpo_relations: data/hpo_cpo/hpo_cpo_relations.tsv
+  hpo_overview: data/hpo_cpo/hpo_cpo_overview.tsv
+  hpo_manifest: data/hpo_cpo/manifest.json
+  mpo_relations: data/mpo_cpo/final/mpo_cpo_relations.tsv
+  mpo_status: data/mpo_cpo/final/mpo_cpo_term_status.tsv
+  mpo_manifest: data/mpo_cpo/final/manifest.json
+  inherited_assertions: data/mpo_cpo/inherited/mpo_cpo_inherited_assertions.tsv
+  inheritance_provenance: data/mpo_cpo/inherited/mpo_cpo_inheritance_provenance.tsv
+  inheritance_status: data/mpo_cpo/inherited/mpo_cpo_inheritance_term_status.tsv
+  inheritance_manifest: data/mpo_cpo/inherited/manifest.json
+  hpo_target_index: /path/to/workspace/CPO_generize/HPO_link_v6/work/hpo_term_selection_v1/selected_hpo_terms.tsv
+ontologies:
+  hp: /path/to/workspace/HPO_expand/gene-to-phenotype/data/HPO/script/hp.obo
+  mp: /path/to/workspace/CPO_generize/03_MPO_link/data/processed/mpo_clean/mpo_clean.obo
+  cl: /path/to/workspace/CPO_generize/HPO_link_v6/data/ontologies/cl.obo
+  go: /path/to/workspace/CPO_generize/HPO_link_v6/data/ontologies/go-basic.obo
+  similarity_relations: [is_a]
+profiles:
+  origin: self
+  structure_key: [cl_id, go_id]
+  exclude_noninformative_roots: true
+  unresolved_evidence_class: quarantine
+scoring:
+  channels: [DD, DM, MD, MM]
+  ic: intrinsic_descendants
+  component_similarity: lin
+  cpo_combination: product
+  profile_aggregation: directional_equal_bma
+  scores: [shape, support, conflict]
+  empty_profile_value: nan
+direction:
+  comparable_structure: exact_cl_and_go
+  require_resolved_axis: true
+  mixed_node_policy: unknown
+  no_comparable_pair_value: nan
+  rules_file: config/direction_rules.tsv
+branch:
+  source: verified_descendant_leaf_self
+  aggregation: max
+  merge_into_self: false
+candidates:
+  top_k: 20
+  positive_scores_only: true
+  cross_channel_total_score: false
+  exclude_broad_roots_from_display: true
+runtime:
+  format: hdf5
+  store_dtype: float32
+  compute_dtype: float64
+  hpo_block_size: 64
+  mpo_block_size: 512
+  workers: 1
+  resume: true
+  seed: 20260905
+evaluation:
+  k: [1, 5, 10, 20]
+  reference_mapping_files: []
+  unlabeled_as_negative: false

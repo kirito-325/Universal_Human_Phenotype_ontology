@@ -1,0 +1,1545 @@
+{
+  "$defs": {
+    "ClaimDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "anatomy_context": {
+          "default": "",
+          "title": "Anatomy Context",
+          "type": "string"
+        },
+        "assertion": {
+          "enum": [
+            "own_result",
+            "review_statement",
+            "background_statement",
+            "model_inference"
+          ],
+          "title": "Assertion",
+          "type": "string"
+        },
+        "bridge_scope": {
+          "enum": [
+            "direct_phenotype",
+            "same_mgi_model",
+            "phenotype_mechanism_bridge",
+            "supplied_disease",
+            "gene_model",
+            "mechanistically_compatible"
+          ],
+          "title": "Bridge Scope",
+          "type": "string"
+        },
+        "cell_evidence_mode": {
+          "default": "direct",
+          "enum": [
+            "direct",
+            "inferred"
+          ],
+          "title": "Cell Evidence Mode",
+          "type": "string"
+        },
+        "cell_text": {
+          "description": "Actual implicated cell population; anatomy, matrix and released vesicles are context/products, not themselves a cell type.",
+          "minLength": 1,
+          "title": "Cell Text",
+          "type": "string"
+        },
+        "direction": {
+          "description": "Direction of the named cellular process in process_text, or the cellular quality in quality_text when process_text is empty; not the polarity of the input radiographic/clinical phenotype.",
+          "enum": [
+            "increased",
+            "decreased",
+            "abnormal",
+            "absent",
+            "present",
+            "bidirectional",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "disease_context": {
+          "default": "",
+          "title": "Disease Context",
+          "type": "string"
+        },
+        "evidence_mode": {
+          "enum": [
+            "direct",
+            "inferred"
+          ],
+          "title": "Evidence Mode",
+          "type": "string"
+        },
+        "evidence_type": {
+          "enum": [
+            "pathology",
+            "observation",
+            "intervention",
+            "causal_statement",
+            "inference"
+          ],
+          "title": "Evidence Type",
+          "type": "string"
+        },
+        "experimental_context": {
+          "default": "",
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "experimental_evidence": {
+          "description": "Actual read primary study findings used for support/contradiction, scoped to a component or whole claim; [] allowed. Put interpretation in reasoning_steps, not this evidence block.",
+          "items": {
+            "$ref": "#/$defs/ExperimentalEvidenceDraft"
+          },
+          "title": "Experimental Evidence",
+          "type": "array"
+        },
+        "gene_mentions_ignored": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Gene Mentions Ignored",
+          "type": "array"
+        },
+        "hypothesis_id": {
+          "default": "",
+          "description": "Optional current hypothesis ID; omit for the host to assign. Do not invent another hypothesis ID.",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "link_evidence_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "direct",
+                "inferred"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Link Evidence Mode"
+        },
+        "mgi_context_id": {
+          "default": "",
+          "description": "Supplied MGI context ID only for bridge_scope=same_mgi_model; otherwise empty. General animal-study evidence belongs in experimental_evidence.",
+          "title": "Mgi Context Id",
+          "type": "string"
+        },
+        "model_evidence_quote": {
+          "default": "",
+          "description": "Exact model-identifying quote only for same_mgi_model, from a read window of the main source; otherwise empty.",
+          "title": "Model Evidence Quote",
+          "type": "string"
+        },
+        "process_text": {
+          "description": "Named cellular process whose direction is assessed; empty for a quality-only abnormality. Do not substitute the macro phenotype's polarity.",
+          "title": "Process Text",
+          "type": "string"
+        },
+        "quality_text": {
+          "description": "Cellular abnormality/quality consistent with process_text and direction. The reasoning endpoint is exactly cell_text + ': ' + quality_text.",
+          "minLength": 1,
+          "title": "Quality Text",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reasoning_steps": {
+          "items": {
+            "$ref": "#/$defs/ReasoningStep"
+          },
+          "title": "Reasoning Steps",
+          "type": "array"
+        },
+        "relation_type": {
+          "enum": [
+            "equivalent_cellular_phenotype",
+            "has_constituent_cellular_phenotype",
+            "causally_upstream_of",
+            "associated_with",
+            "mechanistically_compatible_with"
+          ],
+          "title": "Relation Type",
+          "type": "string"
+        },
+        "species": {
+          "description": "For inferred claims, intended conclusion species; for direct observations, actual study species. Experiment entries retain their own actual species.",
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "supporting_document_id": {
+          "default": "",
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper. Paired only with supporting_quote; empty when quote is empty.",
+          "title": "Supporting Document Id",
+          "type": "string"
+        },
+        "supporting_quote": {
+          "default": "",
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments. Optional main quotation; empty requires supporting_document_id=''.",
+          "title": "Supporting Quote",
+          "type": "string"
+        },
+        "taxon_id": {
+          "description": "Taxon matching claim.species: human=NCBITaxon:9606, mouse=NCBITaxon:10090, rat=NCBITaxon:10116, unknown=NCBITaxon:0; other_model uses its actual taxon.",
+          "pattern": "^NCBITaxon:[0-9]+$",
+          "title": "Taxon Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_mode",
+        "cell_text",
+        "process_text",
+        "quality_text",
+        "direction",
+        "relation_type",
+        "bridge_scope",
+        "species",
+        "taxon_id",
+        "assertion",
+        "evidence_type",
+        "gene_mentions_ignored",
+        "rationale"
+      ],
+      "title": "ClaimDraft",
+      "type": "object"
+    },
+    "EvidenceSpan": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "doi": {
+          "title": "Doi",
+          "type": "string"
+        },
+        "pmcid": {
+          "title": "Pmcid",
+          "type": "string"
+        },
+        "pmid": {
+          "title": "Pmid",
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "source_kind": {
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "span_end": {
+          "title": "Span End",
+          "type": "integer"
+        },
+        "span_start": {
+          "title": "Span Start",
+          "type": "integer"
+        },
+        "text_sha256": {
+          "minLength": 1,
+          "title": "Text Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_id",
+        "source_url",
+        "pmid",
+        "pmcid",
+        "doi",
+        "source_kind",
+        "text_sha256",
+        "span_start",
+        "span_end",
+        "quote",
+        "section"
+      ],
+      "title": "EvidenceSpan",
+      "type": "object"
+    },
+    "ExperimentalEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "enum": [
+            "supports",
+            "contradicts"
+          ],
+          "title": "Effect",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceSpan"
+        },
+        "experimental_context": {
+          "minLength": 1,
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "cell_identity",
+            "cell_abnormality",
+            "mechanism",
+            "phenotype_link",
+            "whole_claim"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "species": {
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "study_type": {
+          "enum": [
+            "observation",
+            "pathology",
+            "intervention"
+          ],
+          "title": "Study Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "study_type",
+        "species",
+        "experimental_context",
+        "finding",
+        "effect",
+        "evidence"
+      ],
+      "title": "ExperimentalEvidence",
+      "type": "object"
+    },
+    "ExperimentalEvidenceDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper.",
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "effect": {
+          "default": "supports",
+          "enum": [
+            "supports",
+            "contradicts"
+          ],
+          "title": "Effect",
+          "type": "string"
+        },
+        "experimental_context": {
+          "minLength": 1,
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "finding": {
+          "description": "The actual study finding, separately from your inferred mechanism or extrapolation. Review speculation is not an experimental finding.",
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "quote": {
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments.",
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "scope": {
+          "description": "What this actual study supports/tests. Whole_claim requires the complete claim and applicable species, model, anatomy and experimental conditions. Other-model findings usually have component scope. An unreported phenotype is not a demonstrated negative result.",
+          "enum": [
+            "cell_identity",
+            "cell_abnormality",
+            "mechanism",
+            "phenotype_link",
+            "whole_claim"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "species": {
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "study_type": {
+          "enum": [
+            "observation",
+            "pathology",
+            "intervention"
+          ],
+          "title": "Study Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_id",
+        "quote",
+        "scope",
+        "study_type",
+        "species",
+        "experimental_context",
+        "finding"
+      ],
+      "title": "ExperimentalEvidenceDraft",
+      "type": "object"
+    },
+    "ExperimentalValidation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/ExperimentalEvidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "status": {
+          "default": "not_recorded",
+          "description": "Summary of recorded study findings and their selected scope, not the scientific verdict on the inferred prediction or proof of target-specific causality.",
+          "enum": [
+            "not_recorded",
+            "component_support",
+            "claim_support",
+            "contradictory",
+            "mixed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "title": "ExperimentalValidation",
+      "type": "object"
+    },
+    "GroundedReasoningStep": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "basis": {
+          "enum": [
+            "phenotype_definition",
+            "literature",
+            "inference",
+            "model_knowledge"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceSpan"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "explanation": {
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "relation": {
+          "minLength": 1,
+          "title": "Relation",
+          "type": "string"
+        },
+        "scope": {
+          "default": "phenotype_link",
+          "enum": [
+            "phenotype_link",
+            "cell_identity",
+            "mechanism"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "relation",
+        "basis",
+        "explanation",
+        "assumptions",
+        "evidence"
+      ],
+      "title": "GroundedReasoningStep",
+      "type": "object"
+    },
+    "MGIContext": {
+      "additionalProperties": false,
+      "properties": {
+        "context_id": {
+          "minLength": 1,
+          "title": "Context Id",
+          "type": "string"
+        },
+        "genotype": {
+          "minLength": 1,
+          "title": "Genotype",
+          "type": "string"
+        },
+        "markers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Markers",
+          "type": "array"
+        },
+        "pmid": {
+          "pattern": "^[0-9]+$",
+          "title": "Pmid",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "context_id",
+        "pmid",
+        "genotype",
+        "source_ref"
+      ],
+      "title": "MGIContext",
+      "type": "object"
+    },
+    "Mapping": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Candidate Ids",
+          "type": "array"
+        },
+        "cell_confidence": {
+          "title": "Cell Confidence",
+          "type": "string"
+        },
+        "cl": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OntologyTerm"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "go": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OntologyTerm"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method": {
+          "default": "llm_term_selection_then_local_id_label_validation",
+          "title": "Method",
+          "type": "string"
+        },
+        "ontology_sha256": {
+          "title": "Ontology Sha256",
+          "type": "string"
+        },
+        "process_confidence": {
+          "title": "Process Confidence",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cl",
+        "go",
+        "cell_confidence",
+        "process_confidence",
+        "rationale",
+        "ontology_sha256",
+        "candidate_ids"
+      ],
+      "title": "Mapping",
+      "type": "object"
+    },
+    "MechanismGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "cl_id": {
+          "title": "Cl Id",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "increased",
+            "decreased",
+            "abnormal",
+            "absent",
+            "present",
+            "bidirectional",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "go_id": {
+          "title": "Go Id",
+          "type": "string"
+        },
+        "mechanism_group_id": {
+          "title": "Mechanism Group Id",
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/$defs/MechanismMember"
+          },
+          "minItems": 1,
+          "title": "Members",
+          "type": "array"
+        },
+        "model_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Model Ids",
+          "type": "array"
+        },
+        "scope_note": {
+          "title": "Scope Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mechanism_group_id",
+        "cl_id",
+        "go_id",
+        "direction",
+        "model_ids",
+        "members",
+        "scope_note"
+      ],
+      "title": "MechanismGroup",
+      "type": "object"
+    },
+    "MechanismMember": {
+      "additionalProperties": false,
+      "properties": {
+        "claim": {
+          "$ref": "#/$defs/ClaimDraft"
+        },
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_id",
+        "claim_id",
+        "claim"
+      ],
+      "title": "MechanismMember",
+      "type": "object"
+    },
+    "ModelResearchResult": {
+      "additionalProperties": false,
+      "properties": {
+        "coverage": {
+          "additionalProperties": true,
+          "title": "Coverage",
+          "type": "object"
+        },
+        "errors": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Errors",
+          "type": "array"
+        },
+        "model": {
+          "$ref": "#/$defs/MouseModel"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "title": "Observations",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "researching",
+            "mechanisms_found",
+            "inconclusive",
+            "needs_sources",
+            "deferred",
+            "processing_failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model",
+        "status",
+        "reason",
+        "observations",
+        "coverage",
+        "errors"
+      ],
+      "title": "ModelResearchResult",
+      "type": "object"
+    },
+    "MouseModel": {
+      "additionalProperties": false,
+      "properties": {
+        "allele_symbols": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allele Symbols",
+          "type": "array"
+        },
+        "allelic_composition": {
+          "minLength": 1,
+          "title": "Allelic Composition",
+          "type": "string"
+        },
+        "annotation_pmids": {
+          "items": {
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "title": "Annotation Pmids",
+          "type": "array"
+        },
+        "annotations": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Annotations",
+          "type": "array"
+        },
+        "genetic_background": {
+          "title": "Genetic Background",
+          "type": "string"
+        },
+        "marker_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Marker Ids",
+          "type": "array"
+        },
+        "model_id": {
+          "pattern": "^MGI:[0-9]+$",
+          "title": "Model Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_id",
+        "allelic_composition",
+        "allele_symbols",
+        "genetic_background",
+        "marker_ids",
+        "annotation_pmids",
+        "annotations"
+      ],
+      "title": "MouseModel",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_abnormality_id": {
+          "default": "",
+          "title": "Cell Abnormality Id",
+          "type": "string"
+        },
+        "cell_evidence_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "direct",
+                "inferred"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cell Evidence Mode"
+        },
+        "claim": {
+          "$ref": "#/$defs/ClaimDraft"
+        },
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "edge_source": {
+          "default": "",
+          "title": "Edge Source",
+          "type": "string"
+        },
+        "edge_target": {
+          "default": "",
+          "title": "Edge Target",
+          "type": "string"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EvidenceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_mode": {
+          "enum": [
+            "direct",
+            "inferred"
+          ],
+          "title": "Evidence Mode",
+          "type": "string"
+        },
+        "experimental_validation": {
+          "$ref": "#/$defs/ExperimentalValidation"
+        },
+        "gate_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Gate Reasons",
+          "type": "array"
+        },
+        "knowledge_source": {
+          "anyOf": [
+            {
+              "enum": [
+                "literature",
+                "model_knowledge",
+                "mixed"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Knowledge Source"
+        },
+        "link_evidence_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "direct",
+                "inferred"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Link Evidence Mode"
+        },
+        "mapping": {
+          "$ref": "#/$defs/Mapping"
+        },
+        "pair_id": {
+          "default": "",
+          "title": "Pair Id",
+          "type": "string"
+        },
+        "phenotype_id": {
+          "pattern": "^MP:[0-9]{7}$",
+          "title": "Phenotype Id",
+          "type": "string"
+        },
+        "phenotype_label": {
+          "title": "Phenotype Label",
+          "type": "string"
+        },
+        "reasoning_chain": {
+          "default": "",
+          "title": "Reasoning Chain",
+          "type": "string"
+        },
+        "reasoning_steps": {
+          "items": {
+            "$ref": "#/$defs/GroundedReasoningStep"
+          },
+          "title": "Reasoning Steps",
+          "type": "array"
+        },
+        "release_scope": {
+          "enum": [
+            "primary",
+            "conditional",
+            "cross_species",
+            "unresolved",
+            "rejected"
+          ],
+          "title": "Release Scope",
+          "type": "string"
+        },
+        "review": {
+          "$ref": "#/$defs/Review"
+        }
+      },
+      "required": [
+        "claim_id",
+        "phenotype_id",
+        "phenotype_label",
+        "claim",
+        "evidence_mode",
+        "evidence",
+        "mapping",
+        "review",
+        "release_scope",
+        "gate_reasons"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "OntologyTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "alt_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Alt Ids",
+          "type": "array"
+        },
+        "definition": {
+          "default": "",
+          "title": "Definition",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "namespace": {
+          "default": "",
+          "title": "Namespace",
+          "type": "string"
+        },
+        "obsolete": {
+          "default": false,
+          "title": "Obsolete",
+          "type": "boolean"
+        },
+        "parents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Parents",
+          "type": "array"
+        },
+        "replaced_by": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Replaced By",
+          "type": "array"
+        },
+        "synonyms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        },
+        "term_id": {
+          "pattern": "^(CL|GO):[0-9]{7}$",
+          "title": "Term Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "term_id",
+        "label"
+      ],
+      "title": "OntologyTerm",
+      "type": "object"
+    },
+    "Phenotype": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "default": "",
+          "title": "Definition",
+          "type": "string"
+        },
+        "disease_contexts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Disease Contexts",
+          "type": "array"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "mgi_contexts": {
+          "items": {
+            "$ref": "#/$defs/MGIContext"
+          },
+          "title": "Mgi Contexts",
+          "type": "array"
+        },
+        "model_context": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MouseModel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "phenotype_id": {
+          "pattern": "^MP:[0-9]{7}$",
+          "title": "Phenotype Id",
+          "type": "string"
+        },
+        "seed_pmids": {
+          "items": {
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "title": "Seed Pmids",
+          "type": "array"
+        },
+        "synonyms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Synonyms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "phenotype_id",
+        "label"
+      ],
+      "title": "Phenotype",
+      "type": "object"
+    },
+    "QuoteReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper.",
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "quote": {
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments.",
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "span_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional exact host-provided absolute offset; omit rather than estimate.",
+          "title": "Span Start"
+        }
+      },
+      "required": [
+        "document_id",
+        "quote"
+      ],
+      "title": "QuoteReference",
+      "type": "object"
+    },
+    "ReasoningStep": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "description": "Applicability assumptions, required for inference; empty for literature/phenotype_definition. Do not add assumptions_note/basis_notes.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "basis": {
+          "description": "literature: exact cited facts, no assumptions; inference: cited premises plus assumptions; model_knowledge: learned premise, no citations; phenotype_definition: first input-only step.",
+          "enum": [
+            "phenotype_definition",
+            "literature",
+            "inference",
+            "model_knowledge"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "citations": {
+          "description": "Exact read-source quotations for this step, not source IDs alone. Empty for model_knowledge/phenotype_definition.",
+          "items": {
+            "$ref": "#/$defs/QuoteReference"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "explanation": {
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "relation": {
+          "minLength": 1,
+          "title": "Relation",
+          "type": "string"
+        },
+        "scope": {
+          "default": "phenotype_link",
+          "description": "Use cell_identity for the step justifying which cell population is implicated; inferred identity needs inference/model_knowledge.",
+          "enum": [
+            "phenotype_link",
+            "cell_identity",
+            "mechanism"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "relation",
+        "basis",
+        "explanation"
+      ],
+      "title": "ReasoningStep",
+      "type": "object"
+    },
+    "ResearchCompletion": {
+      "additionalProperties": false,
+      "properties": {
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "state_version": {
+          "minimum": 0,
+          "title": "State Version",
+          "type": "integer"
+        },
+        "stop_reason": {
+          "enum": [
+            "sufficient_evidence",
+            "budget_exhausted",
+            "no_evidence",
+            "needs_curation"
+          ],
+          "title": "Stop Reason",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state_version",
+        "stop_reason",
+        "summary",
+        "limitations"
+      ],
+      "title": "ResearchCompletion",
+      "type": "object"
+    },
+    "ResearchGap": {
+      "additionalProperties": false,
+      "properties": {
+        "missing_link": {
+          "minLength": 1,
+          "title": "Missing Link",
+          "type": "string"
+        },
+        "suggested_document_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Document Ids",
+          "type": "array"
+        },
+        "suggested_queries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Queries",
+          "type": "array"
+        }
+      },
+      "required": [
+        "missing_link"
+      ],
+      "title": "ResearchGap",
+      "type": "object"
+    },
+    "Review": {
+      "additionalProperties": false,
+      "properties": {
+        "abnormality_supported": {
+          "title": "Abnormality Supported",
+          "type": "boolean"
+        },
+        "blocking_issues": {
+          "items": {
+            "$ref": "#/$defs/ReviewIssue"
+          },
+          "title": "Blocking Issues",
+          "type": "array"
+        },
+        "causal_supported": {
+          "title": "Causal Supported",
+          "type": "boolean"
+        },
+        "cell_inference_supported": {
+          "default": false,
+          "title": "Cell Inference Supported",
+          "type": "boolean"
+        },
+        "cell_supported": {
+          "title": "Cell Supported",
+          "type": "boolean"
+        },
+        "experimental_evidence_supported": {
+          "default": true,
+          "title": "Experimental Evidence Supported",
+          "type": "boolean"
+        },
+        "inference_supported": {
+          "default": false,
+          "description": "Scientific coherence, not experimental confirmation.",
+          "title": "Inference Supported",
+          "type": "boolean"
+        },
+        "mapping_supported": {
+          "title": "Mapping Supported",
+          "type": "boolean"
+        },
+        "model_match_supported": {
+          "title": "Model Match Supported",
+          "type": "boolean"
+        },
+        "phenotype_bridge_supported": {
+          "title": "Phenotype Bridge Supported",
+          "type": "boolean"
+        },
+        "process_supported": {
+          "title": "Process Supported",
+          "type": "boolean"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "research_gaps": {
+          "items": {
+            "$ref": "#/$defs/ResearchGap"
+          },
+          "title": "Research Gaps",
+          "type": "array"
+        },
+        "scope_transfer_supported": {
+          "default": false,
+          "description": "Defensible applicability assumptions; exact-site experiments are optional.",
+          "title": "Scope Transfer Supported",
+          "type": "boolean"
+        },
+        "species_supported": {
+          "title": "Species Supported",
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "supported",
+            "association_only",
+            "partial",
+            "contradictory",
+            "insufficient_evidence"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "cell_supported",
+        "process_supported",
+        "abnormality_supported",
+        "phenotype_bridge_supported",
+        "species_supported",
+        "mapping_supported",
+        "model_match_supported",
+        "causal_supported",
+        "reason"
+      ],
+      "title": "Review",
+      "type": "object"
+    },
+    "ReviewIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "source_misinterpretation",
+            "logical_inconsistency",
+            "contradictory_evidence",
+            "inapplicable_scope",
+            "cell_misidentification",
+            "direction_mismatch"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "explanation": {
+          "description": "Identify the concrete conflicting propositions and source/biological basis. Direction mismatch concerns the same named process/comparison, not opposite signs across upstream process and downstream phenotype. Missing experiments alone are not a blocker.",
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "explanation"
+      ],
+      "title": "ReviewIssue",
+      "type": "object"
+    },
+    "ScopedObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "observation": {
+          "$ref": "#/$defs/Observation"
+        }
+      },
+      "required": [
+        "model_id",
+        "observation"
+      ],
+      "title": "ScopedObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "completion": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResearchCompletion"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "context_sha256": {
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "errors": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "mechanisms": {
+      "items": {
+        "$ref": "#/$defs/MechanismGroup"
+      },
+      "title": "Mechanisms",
+      "type": "array"
+    },
+    "models": {
+      "items": {
+        "$ref": "#/$defs/ModelResearchResult"
+      },
+      "title": "Models",
+      "type": "array"
+    },
+    "phenotype": {
+      "$ref": "#/$defs/Phenotype"
+    },
+    "relations": {
+      "items": {
+        "$ref": "#/$defs/ScopedObservation"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "run_fingerprint": {
+      "title": "Run Fingerprint",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "partial",
+        "processing_failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "summary_counts": {
+      "additionalProperties": true,
+      "title": "Summary Counts",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_fingerprint",
+    "phenotype",
+    "status",
+    "models",
+    "relations",
+    "mechanisms",
+    "completion",
+    "summary_counts",
+    "context_sha256"
+  ],
+  "title": "MPResult",
+  "type": "object"
+}

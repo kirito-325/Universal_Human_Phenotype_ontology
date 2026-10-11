@@ -1,0 +1,73 @@
+run_name: cpo_mapping_gene_v2
+project_root: .
+output_dir: results/cpo_mapping_gene_v2
+resources:
+  hpo_ontology: /path/to/workspace/HPO_expand/gene-to-phenotype/data/HPO/script/hp.obo
+  mpo_ontology: /path/to/workspace/CPO_generize/03_MPO_link/data/processed/mpo_clean/mpo_clean.obo
+  cl_ontology: /path/to/workspace/CPO_generize/HPO_link_v6/data/ontologies/cl.obo
+  go_ontology: /path/to/workspace/CPO_generize/HPO_link_v6/data/ontologies/go-basic.obo
+  hpo_self_cpo: data/hpo_cpo/hpo_cpo_relations.tsv
+  mpo_self_cpo: data/mpo_cpo/final/mpo_cpo_relations.tsv
+  hpo_inherited_cpo: data/hpo_cpo/inherited/hpo_cpo_inherited_assertions.tsv
+  mpo_inherited_cpo: data/mpo_cpo/inherited/mpo_cpo_inherited_assertions.tsv
+  hpo_inheritance_provenance: data/hpo_cpo/inherited/hpo_cpo_inheritance_provenance.tsv
+  mpo_inheritance_provenance: data/mpo_cpo/inherited/mpo_cpo_inheritance_provenance.tsv
+  hpo_node_policy: data/hpo_cpo/inherited/hpo_cpo_inheritance_term_status.tsv
+  mpo_node_policy: data/mpo_cpo/inherited/mpo_cpo_inheritance_term_status.tsv
+  disease_hpo: /path/to/workspace/HPO_expand/gene-to-phenotype/data/HPO/final/hpo_disease_to_phenotype.tsv
+  model_mpo: /path/to/workspace/HPO_expand/cellphenohpo/data/MGI_PhenoGenoMP.rpt
+  model_metadata: /path/to/workspace/HPO_expand/cellphenohpo/data/MGI_PhenoGenoMP.rpt
+  mouse_human_orthology: /path/to/workspace/CPO_generize/03_MPO_link/data/raw/orthologs/HOM_MouseHumanSequence.rpt
+  hpo_mpo_reference: /path/to/workspace/HPO_expand/MPO-HPO/data/MHMI/final/mhmi_mp_to_hp_mappings.tsv
+  disease_gene_gold: /path/to/workspace/HPO_expand/gene-to-phenotype/data/HPO/final/hpo_gene_to_disease.tsv
+scope:
+  hpo_root: HP:0000118
+  mpo_root: MP:0000001
+  mpo_normal_root: MP:0002873
+  include_roots_in_matrix: true
+profiles:
+  leaf: self
+  inherit_only_internal: inherited
+  self_required_internal: self_union_inherited
+  root_layer: inherited
+  inheritance_source: descendant_leaf_self_only
+  evidence_class_main: all_eligible
+  missing_required_self: score_inherited_and_flag
+ontology_similarity:
+  relations: [is_a]
+  ic: intrinsic_descendants
+  component: lin
+  cpo_combination: product
+  profile_aggregation: bidirectional_equal_bma
+direction:
+  rules_file: config/direction_rules.tsv
+  comparable_structure: exact_cl_and_go
+  require_resolved_axis: true
+matrix:
+  format: hdf5
+  store_dtype: float32
+  compute_dtype: float64
+  hpo_block_size: 64
+  mpo_block_size: 512
+  resume: true
+mapping:
+  top_k: 20
+  positive_scores_only: true
+disease_model:
+  remove_redundant_ancestors: true
+  remove_zero_information_roots: true
+  primary_score: coverage_adjusted_weighted_bma
+  frequency_weighting: false
+  disease_block_size: 32
+  model_block_size: 1024
+gene_prediction:
+  primary_model_policy: single_perturbed_gene
+  mouse_gene_aggregation: max_model
+  primary_orthology: strict_one_to_one
+  expanded_orthology: retain_ambiguity_max_support
+evaluation:
+  seed: 20260905
+  development_fraction: 0.30
+  k: [1, 5, 10, 20]
+  unlabeled_as_negative: false
+  gold_allowed_in_scoring: false

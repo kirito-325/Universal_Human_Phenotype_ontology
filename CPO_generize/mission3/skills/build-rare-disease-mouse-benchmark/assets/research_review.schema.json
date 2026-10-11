@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Independent rare-disease mouse benchmark research review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "disease_id",
+    "disease_name",
+    "gene_symbol",
+    "decision",
+    "identity_confidence",
+    "inheritance",
+    "mechanism_class",
+    "mechanism_confidence",
+    "molecular_mechanism_summary",
+    "allelic_requirement",
+    "core_hpo_ids",
+    "excluded_hpo_ids",
+    "gold_model_decisions",
+    "sources",
+    "research_queries",
+    "readiness",
+    "limitations",
+    "rationale"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "disease_id": {"type": "string"},
+    "disease_name": {"type": "string"},
+    "gene_symbol": {"type": "string"},
+    "decision": {
+      "type": "string",
+      "enum": ["include", "review_required", "exclude"]
+    },
+    "identity_confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "insufficient"]
+    },
+    "inheritance": {"type": "string"},
+    "mechanism_class": {
+      "type": "string",
+      "enum": [
+        "biallelic_loss_of_function",
+        "hemizygous_loss_of_function",
+        "haploinsufficiency",
+        "gain_of_function",
+        "dominant_negative",
+        "altered_function",
+        "mixed_allelic",
+        "unknown"
+      ]
+    },
+    "mechanism_confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "insufficient"]
+    },
+    "molecular_mechanism_summary": {"type": "string"},
+    "allelic_requirement": {"type": "string"},
+    "core_hpo_ids": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^HP:[0-9]{7}$"}
+    },
+    "excluded_hpo_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^HP:[0-9]{7}$"}
+    },
+    "gold_model_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_id", "decision", "source_ids", "reason"],
+        "properties": {
+          "model_id": {"type": "string", "pattern": "^MGI:[0-9]+$"},
+          "decision": {
+            "type": "string",
+            "enum": ["accept", "reject", "review_required"]
+          },
+          "source_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string"}
+          },
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "title", "url", "source_type", "supports"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "primary_research",
+              "expert_curated_database",
+              "clinical_review",
+              "guideline",
+              "other"
+            ]
+          },
+          "supports": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "disease_identity",
+                "gene_disease_validity",
+                "inheritance",
+                "molecular_mechanism",
+                "core_phenotypes",
+                "gold_mouse_model"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "research_queries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_ready",
+        "core_hpo_ready",
+        "genetic_mechanism_ready",
+        "gold_models_ready",
+        "blockers"
+      ],
+      "properties": {
+        "identity_ready": {"type": "boolean"},
+        "core_hpo_ready": {"type": "boolean"},
+        "genetic_mechanism_ready": {"type": "boolean"},
+        "gold_models_ready": {"type": "boolean"},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "rationale": {"type": "string"}
+  }
+}

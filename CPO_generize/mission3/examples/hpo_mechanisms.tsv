@@ -1,0 +1,4 @@
+hpo_id	selected_cl_id	selected_go_id	direction	relation_type	bridge_scope	candidate_status	supporting_record_ids
+HP:TEST0001	CL:TEST0001	GO:TEST0001	increased	has_constituent_cellular_phenotype	direct_hpo	accepted	PMID:EXAMPLE1
+HP:TEST0002	CL:TEST0001	GO:TEST0001	increased	causally_upstream_of	direct_hpo	accepted	PMID:EXAMPLE2
+HP:TEST0003	CL:TEST0001	GO:TEST0001	unknown	has_constituent_cellular_phenotype	direct_hpo	accepted	PMID:EXAMPLE3

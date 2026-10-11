@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "SearchDirection": {
+      "additionalProperties": false,
+      "properties": {
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "phenotype",
+            "disease",
+            "pathology",
+            "development",
+            "cellular",
+            "molecular",
+            "model",
+            "counterevidence"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "queries": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Queries",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "direction_id",
+        "label",
+        "kind",
+        "rationale",
+        "queries"
+      ],
+      "title": "SearchDirection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "directions": {
+      "items": {
+        "$ref": "#/$defs/SearchDirection"
+      },
+      "title": "Directions",
+      "type": "array"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "directions",
+    "rationale"
+  ],
+  "title": "DiscoveryPlan",
+  "type": "object"
+}

@@ -1,0 +1,17 @@
+{
+  "chunk_chars": 16000,
+  "chunk_overlap": 800,
+  "eval_timeout_seconds": 900.0,
+  "llm_workers": 6,
+  "max_chunks_per_paper": 4,
+  "max_full_texts": 2,
+  "max_papers": 6,
+  "max_ptc_calls": 256,
+  "max_searches": 6,
+  "max_subagent_calls": 48,
+  "offline": false,
+  "recursion_limit": 100,
+  "results_per_search": 5,
+  "term_workers": 3,
+  "timeout_seconds": 1800.0
+}

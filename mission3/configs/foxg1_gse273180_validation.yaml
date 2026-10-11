@@ -1,0 +1,53 @@
+project:
+  name: FOXG1 GSE273180 frozen exploratory follow-up
+  random_seed: 2026
+  evaluation_mode: exploratory_followup
+
+inputs:
+  freeze_manifest: outputs/single_cell_case_exploration/frozen_cases/OMIM_613454__FOXG1__GSE273180/case_freeze_manifest.yaml
+  go_functions: /path/to/workspace/CPO_generize/GO_function/results/go_function_genes.tsv
+
+single_cell_validation:
+  primary_cell_type: excitatory_neuron
+  reference_cell_types: [interneuron, neural_progenitor, astrocyte_progenitor]
+  expected_candidate_direction: decreased
+  min_cells_per_profile: 20
+  random_iterations: 1000
+  random_gene_match_bins: 10
+  gene_support_rule: all_deletion_technical_replicates_below_all_controls
+  cell_specificity_rule: largest_absolute_effect_among_frozen_cell_classes
+  strict_module_support_rule: empirical_p_le_0.05_and_nonoverlapping_technical_replicate_ranges
+  samples:
+    - sample_id: WT_1
+      condition: control
+      technical_replicate: "1"
+      matrix: data/single_cell/foxg1_gse273180/raw/GSM8423582_WT_1_Matrix_Gene_Counts_filtered.mtx.gz
+      features: data/single_cell/foxg1_gse273180/preflight/GSM8423582_WT_1_Genes_filtered.tsv.gz
+      barcodes: data/single_cell/foxg1_gse273180/raw/GSM8423582_WT_1_Barcodes_filtered.tsv.gz
+    - sample_id: WT_2
+      condition: control
+      technical_replicate: "2"
+      matrix: data/single_cell/foxg1_gse273180/raw/GSM8423583_WT_2_Matrix_Gene_Counts_filtered.mtx.gz
+      features: data/single_cell/foxg1_gse273180/preflight/GSM8423583_WT_2_Genes_filtered.tsv.gz
+      barcodes: data/single_cell/foxg1_gse273180/raw/GSM8423583_WT_2_Barcodes_filtered.tsv.gz
+    - sample_id: FOXG1del_1
+      condition: foxg1_del
+      technical_replicate: "1"
+      matrix: data/single_cell/foxg1_gse273180/raw/GSM8423584_FOXG1del_1_Matrix_Gene_Counts_filtered.mtx.gz
+      features: data/single_cell/foxg1_gse273180/preflight/GSM8423584_FOXG1del_1_Genes_filtered.tsv.gz
+      barcodes: data/single_cell/foxg1_gse273180/raw/GSM8423584_FOXG1del_1_Barcodes_filtered.tsv.gz
+    - sample_id: FOXG1del_2
+      condition: foxg1_del
+      technical_replicate: "2"
+      matrix: data/single_cell/foxg1_gse273180/raw/GSM8423585_FOXG1del_2_Matrix_Gene_Counts_filtered.mtx.gz
+      features: data/single_cell/foxg1_gse273180/preflight/GSM8423585_FOXG1del_2_Genes_filtered.tsv.gz
+      barcodes: data/single_cell/foxg1_gse273180/raw/GSM8423585_FOXG1del_2_Barcodes_filtered.tsv.gz
+  cell_annotation:
+    n_highly_variable_genes: 2500
+    leiden_resolution: 0.7
+    markers:
+      excitatory_neuron: [SLC17A6, SLC17A7, TBR1, BCL11B, SATB2, CUX1, CUX2, NEUROD2, NEUROD6]
+      interneuron: [GAD1, GAD2, DLX1, DLX2, DLX5, DLX6, ARX]
+      neural_progenitor: [SOX2, PAX6, VIM, NES, HES1, HES5, EOMES]
+      astrocyte_progenitor: [SOX9, S100B, GFAP, HOPX, FABP7, ALDOC]
+      cycling_progenitor: [MKI67, TOP2A, PCNA, CENPF, UBE2C]

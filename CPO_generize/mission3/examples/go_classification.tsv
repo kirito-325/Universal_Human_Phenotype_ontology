@@ -1,0 +1,4 @@
+go_id	go_name	cell_scope
+GO:TEST0001	insulin secretion	cell_type_specific
+GO:TEST0002	feeding response	cell_type_specific
+

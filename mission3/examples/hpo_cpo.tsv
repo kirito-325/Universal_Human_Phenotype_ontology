@@ -1,0 +1,5 @@
+hpo_id	hpo_name	cpo_id	cell_id	cell_name	function_id	function_name	direction	relation_type	confidence	scope	source_gene_ids	source_record_ids
+HP:1	Feature one	CPO:1	CL:1	Cell one	GO:1	Function one	unknown	associated_with	1.0	specific	GENEX	R1
+HP:2	Feature two	CPO:1	CL:1	Cell one	GO:1	Function one	unknown	associated_with	1.0	specific	GENEX	R2
+HP:3	Feature three	CPO:2	CL:2	Cell two	GO:2	Function two	unknown	associated_with	0.8	specific	GENEX	R3
+

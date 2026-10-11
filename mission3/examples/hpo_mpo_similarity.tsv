@@ -1,0 +1,11 @@
+hpo_id	mpo_id	score	score_type	source	version	evidence
+HP:1	MP:1	0.90	synthetic	test	1	match
+HP:2	MP:2	0.80	synthetic	test	1	match
+HP:3	MP:3	0.70	synthetic	test	1	match
+HP:1	MP:4	0.80	synthetic	test	1	match
+HP:2	MP:5	0.75	synthetic	test	1	match
+HP:3	MP:6	0.65	synthetic	test	1	match
+HP:1	MP:7	0.20	synthetic	test	1	match
+HP:2	MP:7	0.20	synthetic	test	1	match
+HP:3	MP:7	0.20	synthetic	test	1	match
+

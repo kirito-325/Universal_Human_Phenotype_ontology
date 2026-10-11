@@ -1,0 +1,82 @@
+project:
+  name: CellPhenoRank broad 435-disease Exomiser 2602 source-label evaluation
+  random_seed: 2026
+  evaluation_mode: source_label_broad
+
+inputs:
+  diseases: data/benchmark/broad_source_435_v1/diseases.tsv
+  models: data/benchmark/broad_source_435_v1/models.tsv
+  model_phenotypes: data/benchmark/broad_source_435_v1/model_phenotypes.tsv
+  similarity: data/external/exomiser_2602/broad_source_435_v1/hp_mp_mappings_2602.tsv.gz
+  phenodigm_mpo_presence: data/external/exomiser_2602/broad_source_435_v1/candidate_mpo_presence_2602.tsv
+  hpo_cpo: /path/to/workspace/CPO_generize/HPO_link_v5/results/links/hpo_cpo_links.tsv.gz
+  cell_markers: /path/to/workspace/marker_literuture/marker_statistics/significant_marker_scores.tsv
+  go_functions: /path/to/workspace/CPO_generize/GO_function/results/go_function_genes.tsv
+  gold_standard: data/benchmark/broad_source_435_v1/gold_standard.tsv
+  source_snapshot_manifest: data/benchmark/broad_source_435_v1/source_snapshot_manifest.json
+  hpo_obo: /path/to/workspace/CPO_generize/mission3/data/raw/hpo/hp.obo
+  hpo_background: /path/to/workspace/CPO_generize/mission3/data/raw/hpo/phenotype.hpoa
+  legacy_output_dir: outputs/real_frozen
+
+surface_baseline:
+  method: exomiser_2602_current
+  matrix_release: 2602
+  profile_formula: current_exomiser_semi_symmetric
+
+candidate_models:
+  attribution_policy: single_gene_only
+  multi_gene_models: excluded
+
+reranking:
+  method: cpo_enrichment_constrained
+  primary_graph: strict
+  run_extended_sensitivity: true
+  use_continuous_hpo_cpo_weights: false
+  use_marker_as_primary_evidence: false
+  final_score_is_rank_display_only: true
+
+hpo_reduction:
+  remove_duplicates: true
+  remove_ancestor_when_descendant_present: true
+  cluster_semantic_siblings: false
+  use_uniform_weights: true
+
+cpo_graph:
+  function_set_scope: go_global
+  strict:
+    accepted_scopes: [cell_type_specific]
+    accepted_cl_go_status: [supported, llm_supported, confirmed]
+    accepted_anatomy_status: [allowed, compatible]
+  extended:
+    accepted_scopes: [cell_type_specific, cell_general]
+
+cpo_enrichment:
+  background_scope: frozen_hpoa
+  test: hypergeometric_greater
+  fdr_method: fdr_bh
+  fdr_used_for_ranking: false
+
+phenotype_stability:
+  method: leave_one_hpo_out
+  phenotype_score: exomiser_2602_current
+  dominance_rule: higher_rank_in_every_valid_run
+  ties_create_constraint: false
+  invalid_run_policy: skip
+  single_hpo_policy: preserve_full_dense_order
+
+priority_order:
+  - cpo_enrichment_pvalue_ascending
+  - supported_hpo_count_descending
+  - supported_cpo_count_descending
+  - concordant_cpo_count_descending
+  - raw_function_path_count_descending
+  - base_rank_ascending
+  - gene_symbol_ascending
+
+leakage_control:
+  run_practical: true
+  run_bridge_loo: true
+  run_indirect_only: false
+
+benchmark:
+  bootstrap_iterations: 1000

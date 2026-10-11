@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-09-21T12:37:17.527440+00:00",
+  "disease_contexts_supplied": false,
+  "existing_literature_used": false,
+  "gene_contexts_supplied": false,
+  "hpo_sha256": "93dace952fcb3ec4728818857f6ba76bc2d5312f4d83266519b8694b8e798f22",
+  "hpo_url": "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp.obo",
+  "ontology_answer_seeds_supplied": false,
+  "seed_pmids_used": false,
+  "selection_method": "Purposive coverage of organ systems for integration smoke testing; not a representative benchmark.",
+  "terms": [
+    {
+      "label": "Thrombocytopenia",
+      "phenotype_id": "HP:0001873",
+      "selection_reason": "hematology: platelet count"
+    },
+    {
+      "label": "Decreased total neutrophil count",
+      "phenotype_id": "HP:0001875",
+      "selection_reason": "hematology: neutrophil count"
+    },
+    {
+      "label": "Seizure",
+      "phenotype_id": "HP:0001250",
+      "selection_reason": "neurology"
+    },
+    {
+      "label": "Sensorineural hearing impairment",
+      "phenotype_id": "HP:0000407",
+      "selection_reason": "hearing"
+    },
+    {
+      "label": "Hypotonia",
+      "phenotype_id": "HP:0001252",
+      "selection_reason": "muscle function"
+    },
+    {
+      "label": "Dilated cardiomyopathy",
+      "phenotype_id": "HP:0001644",
+      "selection_reason": "cardiac function"
+    },
+    {
+      "label": "Pulmonary fibrosis",
+      "phenotype_id": "HP:0002206",
+      "selection_reason": "pulmonary pathology"
+    },
+    {
+      "label": "Proteinuria",
+      "phenotype_id": "HP:0000093",
+      "selection_reason": "renal function"
+    },
+    {
+      "label": "Diabetes mellitus",
+      "phenotype_id": "HP:0000819",
+      "selection_reason": "metabolism"
+    },
+    {
+      "label": "Osteoporosis",
+      "phenotype_id": "HP:0000939",
+      "selection_reason": "skeletal phenotype"
+    }
+  ]
+}

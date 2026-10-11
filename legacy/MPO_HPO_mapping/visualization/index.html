@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>MPO-HPO v2 映射检查台</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">MH</div>
+        <div>
+          <h1>MPO-HPO v2 映射检查台</h1>
+          <p id="resultName" class="result-name">载入 v2 结果</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="serverStatus" class="status-badge status-loading">连接中</span>
+        <a class="button button-secondary" href="/download/mapping">下载全量 TSV</a>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="结果视图">
+      <button class="tab is-active" type="button" data-tab="mapping" aria-selected="true">映射检查</button>
+      <button class="tab" type="button" data-tab="evaluation" aria-selected="false">评估样本</button>
+    </nav>
+
+    <main>
+      <section id="metricBand" class="metric-band" aria-label="结果概览"></section>
+
+      <section id="mappingView" class="view is-active">
+        <div class="workspace">
+          <aside class="term-browser" aria-label="MPO 术语列表">
+            <form id="searchForm" class="search-row" role="search">
+              <label class="search-box">
+                <span class="sr-only">搜索 MPO</span>
+                <input id="searchInput" type="search" placeholder="MPO ID、名称或首位 HPO" autocomplete="off">
+              </label>
+              <button id="clearSearch" class="icon-button" type="button" title="清除搜索" aria-label="清除搜索">×</button>
+            </form>
+
+            <div class="filter-grid">
+              <label>
+                <span>细胞谱系</span>
+                <select id="lineageFilter">
+                  <option value="immune_specific" selected>免疫 specific</option>
+                  <option value="immune_any">免疫 specific/general</option>
+                  <option value="nonimmune">非严格免疫</option>
+                  <option value="all">全部谱系</option>
+                </select>
+              </label>
+              <label>
+                <span>等价判定</span>
+                <select id="exactFilter">
+                  <option value="all">全部</option>
+                  <option value="yes">存在等价项</option>
+                  <option value="no">未发现等价项</option>
+                </select>
+              </label>
+              <label>
+                <span>证据</span>
+                <select id="evidenceFilter">
+                  <option value="all">全部</option>
+                  <option value="parent">含派生父类</option>
+                  <option value="alias">强别名证据</option>
+                  <option value="mechanism">共享机制</option>
+                </select>
+              </label>
+              <label>
+                <span>排序</span>
+                <select id="mpoSort">
+                  <option value="id">MPO ID</option>
+                  <option value="name">名称</option>
+                  <option value="gate_desc">Gate 概率</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="list-meta">
+              <span id="mpoCount">0 个术语</span>
+              <span id="mpoPageLabel">第 1 页</span>
+            </div>
+            <div id="mpoList" class="mpo-list" aria-live="polite"></div>
+            <div class="pager">
+              <button id="prevMpoPage" class="icon-button" type="button" title="上一页" aria-label="上一页">←</button>
+              <button id="nextMpoPage" class="icon-button" type="button" title="下一页" aria-label="下一页">→</button>
+            </div>
+          </aside>
+
+          <article id="detailPane" class="detail-pane" aria-live="polite">
+            <div class="loading-block">正在载入映射结果</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="evaluationView" class="view">
+        <div class="evaluation-layout">
+          <section class="evaluation-metrics">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">TEST SET</p>
+                <h2>四类评估结果</h2>
+              </div>
+              <div class="cohort-actions">
+                <span id="gateThreshold" class="neutral-badge"></span>
+                <div id="metricCohort" class="segmented" role="group" aria-label="评估队列">
+                  <button type="button" data-cohort="all">全量</button>
+                  <button type="button" class="is-active" data-cohort="immune">免疫 specific</button>
+                  <button type="button" data-cohort="nonimmune">非免疫</button>
+                </div>
+              </div>
+            </div>
+            <div id="evaluationBars" class="evaluation-bars"></div>
+            <div id="cohortQuality" class="cohort-quality"></div>
+          </section>
+
+          <section class="case-browser">
+            <div class="case-toolbar">
+              <label>
+                <span>细胞谱系</span>
+                <select id="caseImmune">
+                  <option value="yes">免疫 specific</option>
+                  <option value="all">全部</option>
+                  <option value="no">非免疫</option>
+                </select>
+              </label>
+              <label>
+                <span>任务</span>
+                <select id="caseTask">
+                  <option value="all">全部任务</option>
+                  <option value="exact">专家等价</option>
+                  <option value="hp_broader">专家上位</option>
+                  <option value="counterfactual_exact">等价项切除</option>
+                  <option value="synthetic_hpo_cutout">HPO 子节点切除</option>
+                </select>
+              </label>
+              <label>
+                <span>结果</span>
+                <select id="caseRank">
+                  <option value="all">全部</option>
+                  <option value="top1">Rank 1</option>
+                  <option value="top10">Top 10</option>
+                  <option value="over10">10 名以后</option>
+                  <option value="missed">未召回</option>
+                </select>
+              </label>
+              <label>
+                <span>排序</span>
+                <select id="caseSort">
+                  <option value="worst">最差优先</option>
+                  <option value="best">最好优先</option>
+                  <option value="id">Query ID</option>
+                </select>
+              </label>
+            </div>
+            <div class="table-scroll">
+              <table class="case-table">
+                <thead>
+                  <tr>
+                    <th>任务</th>
+                    <th>Query</th>
+                    <th>目标 HPO</th>
+                    <th>最佳名次</th>
+                    <th>Gate</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="caseRows"></tbody>
+              </table>
+            </div>
+            <div class="case-footer">
+              <span id="caseCount">0 条</span>
+              <div class="pager compact">
+                <button id="prevCasePage" class="icon-button" type="button" title="上一页" aria-label="上一页">←</button>
+                <span id="casePageLabel">1 / 1</span>
+                <button id="nextCasePage" class="icon-button" type="button" title="下一页" aria-label="下一页">→</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

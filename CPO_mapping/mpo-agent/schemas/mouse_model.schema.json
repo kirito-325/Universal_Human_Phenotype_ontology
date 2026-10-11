@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "allele_symbols": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allele Symbols",
+      "type": "array"
+    },
+    "allelic_composition": {
+      "minLength": 1,
+      "title": "Allelic Composition",
+      "type": "string"
+    },
+    "annotation_pmids": {
+      "items": {
+        "pattern": "^[0-9]+$",
+        "type": "string"
+      },
+      "title": "Annotation Pmids",
+      "type": "array"
+    },
+    "annotations": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Annotations",
+      "type": "array"
+    },
+    "genetic_background": {
+      "title": "Genetic Background",
+      "type": "string"
+    },
+    "marker_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Marker Ids",
+      "type": "array"
+    },
+    "model_id": {
+      "pattern": "^MGI:[0-9]+$",
+      "title": "Model Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "model_id",
+    "allelic_composition",
+    "allele_symbols",
+    "genetic_background",
+    "marker_ids",
+    "annotation_pmids",
+    "annotations"
+  ],
+  "title": "MouseModel",
+  "type": "object"
+}

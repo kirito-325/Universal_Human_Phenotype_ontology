@@ -1,0 +1,464 @@
+{
+  "$defs": {
+    "ClaimDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "anatomy_context": {
+          "default": "",
+          "title": "Anatomy Context",
+          "type": "string"
+        },
+        "assertion": {
+          "enum": [
+            "own_result",
+            "review_statement",
+            "background_statement",
+            "model_inference"
+          ],
+          "title": "Assertion",
+          "type": "string"
+        },
+        "bridge_scope": {
+          "enum": [
+            "direct_phenotype",
+            "phenotype_mechanism_bridge",
+            "supplied_disease",
+            "gene_model",
+            "mechanistically_compatible"
+          ],
+          "title": "Bridge Scope",
+          "type": "string"
+        },
+        "cell_evidence_mode": {
+          "default": "direct",
+          "enum": [
+            "direct",
+            "inferred"
+          ],
+          "title": "Cell Evidence Mode",
+          "type": "string"
+        },
+        "cell_text": {
+          "description": "Actual implicated cell population; anatomy, matrix and released vesicles are context/products, not themselves a cell type.",
+          "minLength": 1,
+          "title": "Cell Text",
+          "type": "string"
+        },
+        "direction": {
+          "description": "Direction of the named cellular process in process_text, or the cellular quality in quality_text when process_text is empty; not the polarity of the input radiographic/clinical phenotype.",
+          "enum": [
+            "increased",
+            "decreased",
+            "abnormal",
+            "absent",
+            "present",
+            "bidirectional",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "disease_context": {
+          "default": "",
+          "title": "Disease Context",
+          "type": "string"
+        },
+        "evidence_mode": {
+          "enum": [
+            "direct",
+            "inferred"
+          ],
+          "title": "Evidence Mode",
+          "type": "string"
+        },
+        "evidence_type": {
+          "enum": [
+            "pathology",
+            "observation",
+            "intervention",
+            "causal_statement",
+            "inference"
+          ],
+          "title": "Evidence Type",
+          "type": "string"
+        },
+        "experimental_context": {
+          "default": "",
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "experimental_evidence": {
+          "description": "Actual read primary study findings used for support/contradiction, scoped to a component or whole claim; [] allowed. Put interpretation in reasoning_steps, not this evidence block.",
+          "items": {
+            "$ref": "#/$defs/ExperimentalEvidenceDraft"
+          },
+          "title": "Experimental Evidence",
+          "type": "array"
+        },
+        "gene_mentions_ignored": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Gene Mentions Ignored",
+          "type": "array"
+        },
+        "hypothesis_id": {
+          "default": "",
+          "description": "Optional current hypothesis ID; omit for the host to assign. Do not invent another hypothesis ID.",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "link_evidence_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "direct",
+                "inferred"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Link Evidence Mode"
+        },
+        "process_text": {
+          "description": "Named cellular process whose direction is assessed; empty for a quality-only abnormality. Do not substitute the macro phenotype's polarity.",
+          "title": "Process Text",
+          "type": "string"
+        },
+        "quality_text": {
+          "description": "Cellular abnormality/quality consistent with process_text and direction. The reasoning endpoint is exactly cell_text + ': ' + quality_text.",
+          "minLength": 1,
+          "title": "Quality Text",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reasoning_steps": {
+          "items": {
+            "$ref": "#/$defs/ReasoningStep"
+          },
+          "title": "Reasoning Steps",
+          "type": "array"
+        },
+        "relation_type": {
+          "enum": [
+            "equivalent_cellular_phenotype",
+            "has_constituent_cellular_phenotype",
+            "causally_upstream_of",
+            "associated_with",
+            "mechanistically_compatible_with"
+          ],
+          "title": "Relation Type",
+          "type": "string"
+        },
+        "species": {
+          "description": "For inferred claims, intended conclusion species; for direct observations, actual study species. Experiment entries retain their own actual species.",
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "supporting_document_id": {
+          "default": "",
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper. Paired only with supporting_quote; empty when quote is empty.",
+          "title": "Supporting Document Id",
+          "type": "string"
+        },
+        "supporting_quote": {
+          "default": "",
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments. Optional main quotation; empty requires supporting_document_id=''.",
+          "title": "Supporting Quote",
+          "type": "string"
+        },
+        "taxon_id": {
+          "description": "Taxon matching claim.species: human=NCBITaxon:9606, mouse=NCBITaxon:10090, rat=NCBITaxon:10116, unknown=NCBITaxon:0; other_model uses its actual taxon.",
+          "pattern": "^NCBITaxon:[0-9]+$",
+          "title": "Taxon Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_mode",
+        "cell_text",
+        "process_text",
+        "quality_text",
+        "direction",
+        "relation_type",
+        "bridge_scope",
+        "species",
+        "taxon_id",
+        "assertion",
+        "evidence_type",
+        "gene_mentions_ignored",
+        "rationale"
+      ],
+      "title": "ClaimDraft",
+      "type": "object"
+    },
+    "ExperimentalEvidenceDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper.",
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "effect": {
+          "default": "supports",
+          "enum": [
+            "supports",
+            "contradicts"
+          ],
+          "title": "Effect",
+          "type": "string"
+        },
+        "experimental_context": {
+          "minLength": 1,
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "finding": {
+          "description": "The actual study finding, separately from your inferred mechanism or extrapolation. Review speculation is not an experimental finding.",
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "quote": {
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments.",
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "scope": {
+          "description": "What this actual study supports/tests. Whole_claim requires the complete claim and applicable species, model, anatomy and experimental conditions. Other-model findings usually have component scope. An unreported phenotype is not a demonstrated negative result.",
+          "enum": [
+            "cell_identity",
+            "cell_abnormality",
+            "mechanism",
+            "phenotype_link",
+            "whole_claim"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "species": {
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "study_type": {
+          "enum": [
+            "observation",
+            "pathology",
+            "intervention"
+          ],
+          "title": "Study Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_id",
+        "quote",
+        "scope",
+        "study_type",
+        "species",
+        "experimental_context",
+        "finding"
+      ],
+      "title": "ExperimentalEvidenceDraft",
+      "type": "object"
+    },
+    "QuoteReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper.",
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "quote": {
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments.",
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "span_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional exact host-provided absolute offset; omit rather than estimate.",
+          "title": "Span Start"
+        }
+      },
+      "required": [
+        "document_id",
+        "quote"
+      ],
+      "title": "QuoteReference",
+      "type": "object"
+    },
+    "ReasoningStep": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "description": "Applicability assumptions, required for inference; empty for literature/phenotype_definition. Do not add assumptions_note/basis_notes.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "basis": {
+          "description": "literature: exact cited facts, no assumptions; inference: cited premises plus assumptions; model_knowledge: learned premise, no citations; phenotype_definition: first input-only step.",
+          "enum": [
+            "phenotype_definition",
+            "literature",
+            "inference",
+            "model_knowledge"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "citations": {
+          "description": "Exact read-source quotations for this step, not source IDs alone. Empty for model_knowledge/phenotype_definition.",
+          "items": {
+            "$ref": "#/$defs/QuoteReference"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "explanation": {
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "relation": {
+          "minLength": 1,
+          "title": "Relation",
+          "type": "string"
+        },
+        "scope": {
+          "default": "phenotype_link",
+          "description": "Use cell_identity for the step justifying which cell population is implicated; inferred identity needs inference/model_knowledge.",
+          "enum": [
+            "phenotype_link",
+            "cell_identity",
+            "mechanism"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "relation",
+        "basis",
+        "explanation"
+      ],
+      "title": "ReasoningStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claim": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClaimDraft"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "contradicting_document_ids": {
+      "description": "Assessment-level IDs of actually read contradictory sources; missing studies and alternative causes are not contradictions.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Contradicting Document Ids",
+      "type": "array"
+    },
+    "decision": {
+      "description": "Retain a supported, scientifically defensible prediction with explicit assumptions even without exact-site experiments or a challenge search. Reject concrete defects in necessary premises or unjustifiable applicability, not negative evidence labels alone. Inconclusive when the cell/mechanism or applicability cannot reasonably be justified. Format failures are not scientific decisions.",
+      "enum": [
+        "retain",
+        "reject",
+        "inconclusive"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "revision_note": {
+      "default": "",
+      "title": "Revision Note",
+      "type": "string"
+    },
+    "search_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Search Limitations",
+      "type": "array"
+    },
+    "supporting_document_ids": {
+      "description": "Assessment-level IDs of actually read supporting documents, not unexamined search hits.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Supporting Document Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "decision",
+    "rationale"
+  ],
+  "title": "HypothesisAssessment",
+  "type": "object"
+}

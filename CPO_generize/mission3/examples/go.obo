@@ -1,0 +1,16 @@
+format-version: 1.2
+
+[Term]
+id: GO:0008150
+name: biological_process
+
+[Term]
+id: GO:TEST0001
+name: insulin secretion
+is_a: GO:0008150 ! biological_process
+
+[Term]
+id: GO:TEST0002
+name: feeding response
+is_a: GO:0008150 ! biological_process
+

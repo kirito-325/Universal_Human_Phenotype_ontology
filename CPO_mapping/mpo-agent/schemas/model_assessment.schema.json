@@ -1,0 +1,306 @@
+{
+  "$defs": {
+    "AbnormalityReason": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "description": "Direction of the named cellular process in process_text, or the cellular quality in quality_text when process_text is empty; not the polarity of the input radiographic/clinical phenotype.",
+          "enum": [
+            "increased",
+            "decreased",
+            "abnormal",
+            "absent",
+            "present",
+            "bidirectional",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "description": "Select evidence_ref IDs returned in this task's read_document passages; no quotes, offsets or publication metadata.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "explanation": {
+          "description": "Concise scientific justification, not a transcript of deliberation. Separate your interpretation from the selected source facts.",
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "process_text": {
+          "description": "Cellular process; empty for a quality-only abnormality.",
+          "title": "Process Text",
+          "type": "string"
+        },
+        "quality_text": {
+          "description": "The proposed cellular abnormality, consistent with the named process and direction.",
+          "minLength": 1,
+          "title": "Quality Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "explanation",
+        "process_text",
+        "quality_text",
+        "direction"
+      ],
+      "title": "AbnormalityReason",
+      "type": "object"
+    },
+    "CellReason": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_text": {
+          "description": "The actual implicated cell population; anatomy and extracellular vesicles are context/products, not cell types.",
+          "minLength": 1,
+          "title": "Cell Text",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "description": "Select evidence_ref IDs returned in this task's read_document passages; no quotes, offsets or publication metadata.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "explanation": {
+          "description": "Concise scientific justification, not a transcript of deliberation. Separate your interpretation from the selected source facts.",
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "explanation",
+        "cell_text"
+      ],
+      "title": "CellReason",
+      "type": "object"
+    },
+    "CellularProposal": {
+      "additionalProperties": false,
+      "properties": {
+        "abnormality": {
+          "$ref": "#/$defs/AbnormalityReason"
+        },
+        "assumptions": {
+          "description": "Inside claim.assumptions: scientific applicability assumptions for this prediction, once. Do not invent certainty at the exact anatomical site.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "cell": {
+          "$ref": "#/$defs/CellReason"
+        },
+        "disease_context": {
+          "default": "",
+          "description": "Optional disease/subgroup limitation of this hypothesis, not a diagnosis of the input. Tissue/development/species applicability belongs in assumptions.",
+          "title": "Disease Context",
+          "type": "string"
+        },
+        "experimental_evidence": {
+          "description": "Inside claim.experimental_evidence: actual used primary-study findings with component/whole-claim scope; [] is allowed and does not block a reasonable prediction.",
+          "items": {
+            "$ref": "#/$defs/ExperimentSelection"
+          },
+          "title": "Experimental Evidence",
+          "type": "array"
+        },
+        "phenotype_link": {
+          "$ref": "#/$defs/PhenotypeReason"
+        }
+      },
+      "required": [
+        "cell",
+        "abnormality",
+        "phenotype_link",
+        "assumptions"
+      ],
+      "title": "CellularProposal",
+      "type": "object"
+    },
+    "ExperimentSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "default": "supports",
+          "enum": [
+            "supports",
+            "contradicts"
+          ],
+          "title": "Effect",
+          "type": "string"
+        },
+        "evidence_ref": {
+          "description": "A read passage containing this actual study finding. The host copies its exact text, source and offsets.",
+          "minLength": 1,
+          "title": "Evidence Ref",
+          "type": "string"
+        },
+        "experimental_context": {
+          "minLength": 1,
+          "title": "Experimental Context",
+          "type": "string"
+        },
+        "finding": {
+          "description": "Actual study result, separately from your extrapolation. Reviews/speculation are not experiments. Not reporting a phenotype is not evidence that it was measured and absent.",
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The study's actual tested scope. Whole_claim requires the complete prediction and applicable species/model/anatomy/conditions; other-model findings usually support only a component.",
+          "enum": [
+            "cell_identity",
+            "cell_abnormality",
+            "mechanism",
+            "phenotype_link",
+            "whole_claim"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "species": {
+          "description": "Actual study species, not the species of the prediction or the gene alone.",
+          "enum": [
+            "human",
+            "mouse",
+            "rat",
+            "other_model",
+            "unknown"
+          ],
+          "title": "Species",
+          "type": "string"
+        },
+        "study_type": {
+          "enum": [
+            "observation",
+            "pathology",
+            "intervention"
+          ],
+          "title": "Study Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_ref",
+        "scope",
+        "study_type",
+        "species",
+        "experimental_context",
+        "finding"
+      ],
+      "title": "ExperimentSelection",
+      "type": "object"
+    },
+    "PhenotypeReason": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "description": "Select evidence_ref IDs returned in this task's read_document passages; no quotes, offsets or publication metadata.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "explanation": {
+          "description": "Concise scientific justification, not a transcript of deliberation. Separate your interpretation from the selected source facts.",
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "relation_type": {
+          "default": "mechanistically_compatible_with",
+          "enum": [
+            "associated_with",
+            "mechanistically_compatible_with"
+          ],
+          "title": "Relation Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "explanation"
+      ],
+      "title": "PhenotypeReason",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claim": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CellularProposal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "contradicting_evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Contradicting Evidence Refs",
+      "type": "array"
+    },
+    "decision": {
+      "description": "Retain a supported, defensible prediction with explicit assumptions; challenge searches and exclusion of alternatives are optional. Reject concrete defects in necessary premises, not negative evidence labels alone. Use inconclusive when the cell/mechanism/applicability cannot reasonably be justified. Missing experiments alone are not rejection grounds.",
+      "enum": [
+        "retain",
+        "reject",
+        "inconclusive"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "revision_note": {
+      "default": "",
+      "title": "Revision Note",
+      "type": "string"
+    },
+    "search_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Search Limitations",
+      "type": "array"
+    },
+    "supporting_evidence_refs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Supporting Evidence Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "decision",
+    "rationale"
+  ],
+  "title": "ScientificAssessment",
+  "type": "object"
+}

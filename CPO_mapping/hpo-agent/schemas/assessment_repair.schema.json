@@ -1,0 +1,62 @@
+{
+  "$defs": {
+    "AssessmentFieldUpdate": {
+      "additionalProperties": false,
+      "properties": {
+        "operation": {
+          "default": "set",
+          "enum": [
+            "set",
+            "remove"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path in previous_submission, e.g. ['claim','supporting_document_id']. Scientific decision/rationale/cell/process/quality/direction cannot be patched.",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Path",
+          "type": "array"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null,
+          "description": "Replacement JSON value for set; ignored for remove. Copy IDs/quotes from the same read window."
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "AssessmentFieldUpdate",
+      "type": "object"
+    },
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "updates": {
+      "description": "Only targeted evidence/provenance field updates to the failed assessment; the host retains all other fields and revalidates the complete result.",
+      "items": {
+        "$ref": "#/$defs/AssessmentFieldUpdate"
+      },
+      "minItems": 1,
+      "title": "Updates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "updates"
+  ],
+  "title": "AssessmentRepair",
+  "type": "object"
+}

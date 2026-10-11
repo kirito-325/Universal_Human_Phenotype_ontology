@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPO 连接浏览器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="home-page">
+  <main class="home-shell">
+    <div class="home-heading">
+      <span class="brand-mark">CPO</span>
+      <div>
+        <h1>CPO 连接浏览器</h1>
+        <p>选择一个本体进入独立的树与连接检查页面</p>
+      </div>
+    </div>
+    <nav class="ontology-options" aria-label="选择本体">
+      <a href="/hpo">
+        <strong>HPO</strong>
+        <span>Human Phenotype Ontology</span>
+        <small id="hpoCount">加载中</small>
+      </a>
+      <a href="/mpo">
+        <strong>MPO</strong>
+        <span>Mammalian Phenotype Ontology</span>
+        <small id="mpoCount">加载中</small>
+      </a>
+    </nav>
+  </main>
+  <script>
+    fetch('/api/meta').then(response => response.json()).then(meta => {
+      document.getElementById('hpoCount').textContent = `${Number(meta.hpo_term_count).toLocaleString()} 个术语 · ${Number(meta.hpo_linked_term_count).toLocaleString()} 个有自身关系 · ${Number(meta.hpo_self_count).toLocaleString()} 条关系`;
+      document.getElementById('mpoCount').textContent = `${Number(meta.mpo_term_count).toLocaleString()} 个术语 · ${Number(meta.mpo_linked_term_count).toLocaleString()} 个有自身关系 · ${Number(meta.mpo_self_count).toLocaleString()} 条关系`;
+    });
+  </script>
+</body>
+</html>

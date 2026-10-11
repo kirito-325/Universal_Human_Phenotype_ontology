@@ -1,0 +1,17 @@
+project:
+  name: BTK-XLA frozen exploratory single-cell validation
+  random_seed: 2026
+  evaluation_mode: exploratory_scan
+
+inputs:
+  freeze_manifest: outputs/single_cell_case_exploration/frozen_cases/OMIM_300755__BTK__E_MTAB_11845/case_freeze_manifest.yaml
+  rds: data/single_cell/xla_emtab11845/raw/vaxxedTCR.rds
+  go_functions: /path/to/workspace/CPO_generize/GO_function/results/go_function_genes.tsv
+
+single_cell_validation:
+  primary_cell_label: T_all
+  primary_timepoint_rule: max_min_donors_then_lexical
+  random_iterations: 1000
+  random_gene_match_bins: 10
+  candidate_gene_support_rule: primary_welch_p_le_0.05_and_replication_direction_consistent
+  strict_module_support_rule: empirical_p_le_0.05_and_replication_direction_consistent

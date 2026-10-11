@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "Section": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "start",
+        "end"
+      ],
+      "title": "Section",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "document_id": {
+      "minLength": 1,
+      "title": "Document Id",
+      "type": "string"
+    },
+    "doi": {
+      "default": "",
+      "title": "Doi",
+      "type": "string"
+    },
+    "phenotype_ids": {
+      "items": {
+        "pattern": "^HP:[0-9]{7}$",
+        "type": "string"
+      },
+      "title": "Phenotype Ids",
+      "type": "array"
+    },
+    "pmcid": {
+      "default": "",
+      "pattern": "^(PMC[0-9]+)?$",
+      "title": "Pmcid",
+      "type": "string"
+    },
+    "pmid": {
+      "default": "",
+      "pattern": "^[0-9]*$",
+      "title": "Pmid",
+      "type": "string"
+    },
+    "retracted": {
+      "default": false,
+      "title": "Retracted",
+      "type": "boolean"
+    },
+    "retrieval_notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Retrieval Notes",
+      "type": "array"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/Section"
+      },
+      "title": "Sections",
+      "type": "array"
+    },
+    "source_kind": {
+      "enum": [
+        "abstract",
+        "full_text",
+        "local_text"
+      ],
+      "title": "Source Kind",
+      "type": "string"
+    },
+    "source_url": {
+      "minLength": 1,
+      "title": "Source Url",
+      "type": "string"
+    },
+    "text": {
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "document_id",
+    "title",
+    "text",
+    "source_url",
+    "source_kind"
+  ],
+  "title": "Document",
+  "type": "object"
+}

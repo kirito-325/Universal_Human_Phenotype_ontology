@@ -1,0 +1,9 @@
+project:
+  name: CellPhenoRank single-cell case exploration summary
+  random_seed: 2026
+  evaluation_mode: exploratory_scan
+
+inputs:
+  candidate_table: outputs/single_cell_case_exploration/discovery/case_candidate_table.tsv
+  dataset_catalog: outputs/single_cell_case_exploration/discovery/single_cell_dataset_catalog.tsv
+  case_dataset_status: outputs/single_cell_case_exploration/preflight/case_dataset_pair_status.tsv

@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "ResearchGap": {
+      "additionalProperties": false,
+      "properties": {
+        "missing_link": {
+          "minLength": 1,
+          "title": "Missing Link",
+          "type": "string"
+        },
+        "suggested_document_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Document Ids",
+          "type": "array"
+        },
+        "suggested_queries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Queries",
+          "type": "array"
+        }
+      },
+      "required": [
+        "missing_link"
+      ],
+      "title": "ResearchGap",
+      "type": "object"
+    },
+    "ScientificJudgment": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "description": "Explain this scientific assessment. For invalid, name the conflicting propositions and their source or biological basis.",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "status": {
+          "description": "uncertain means reasonable but unverified; invalid means a concrete factual/logical defect or unjustifiable applicability, not merely missing experiments.",
+          "enum": [
+            "defensible",
+            "uncertain",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "title": "ScientificJudgment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cell_abnormality": {
+      "$ref": "#/$defs/ScientificJudgment"
+    },
+    "cell_identity": {
+      "$ref": "#/$defs/ScientificJudgment"
+    },
+    "experimental_evidence": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientificJudgment"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Required when experimental entries are present; omit when none are recorded. Judge study interpretation/species/scope, not whether experiments are required."
+    },
+    "ontology_mapping": {
+      "$ref": "#/$defs/ScientificJudgment"
+    },
+    "phenotype_link": {
+      "$ref": "#/$defs/ScientificJudgment",
+      "description": "Judge mechanism, anatomical applicability and intended-species transfer together; exact-site experiments are optional."
+    },
+    "research_gaps": {
+      "items": {
+        "$ref": "#/$defs/ResearchGap"
+      },
+      "title": "Research Gaps",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cell_identity",
+    "cell_abnormality",
+    "phenotype_link",
+    "ontology_mapping"
+  ],
+  "title": "ScientificReview",
+  "type": "object"
+}

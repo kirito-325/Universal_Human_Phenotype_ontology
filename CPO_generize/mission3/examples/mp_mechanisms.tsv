@@ -1,0 +1,6 @@
+mp_id	cell_type_id	cell_phenotype_id	direction	phenotype_scope	confidence_grade	rerank_score	evidence_source
+MP:TEST0001	CL:TEST0002	GO:TEST0002	decreased	cell_type_specific	high	0.90	example
+MP:TEST0002	CL:TEST0002	GO:TEST0002	increased	cell_type_specific	high	0.90	example
+MP:TEST0003	CL:TEST0001	GO:TEST0001	increased	cell_type_specific	high	0.90	example
+MP:TEST0004	CL:TEST0001	GO:TEST0001	increased	cell_type_specific	high	0.90	example
+MP:TEST0005	CL:TEST0002	GO:TEST0002	unknown	cell_type_specific	high	0.90	example

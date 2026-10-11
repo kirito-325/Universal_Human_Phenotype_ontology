@@ -1,0 +1,2 @@
+disease_id	gene_symbol	inheritance	molecular_mechanism	core_hpo_ids	exclude_hpo_ids	hpo_directions	include	notes
+OMIM:000000	GENE	autosomal dominant	haploinsufficiency	HP:0000001;HP:0000002;HP:0000003		HP:0000001=decreased	true	Replace this example with reviewed disease metadata.

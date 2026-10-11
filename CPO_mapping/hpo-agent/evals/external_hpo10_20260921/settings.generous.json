@@ -1,0 +1,22 @@
+{
+  "max_searches": 100,
+  "results_per_search": 30,
+  "max_papers": 100,
+  "max_full_texts": 60,
+  "chunk_chars": 16000,
+  "chunk_overlap": 1000,
+  "max_chunks_per_paper": 128,
+  "term_workers": 1,
+  "llm_workers": 3,
+  "model_min_interval_seconds": 0,
+  "model_rate_limit_retries": 8,
+  "model_retry_base_seconds": 15,
+  "model_request_timeout_seconds": 600,
+  "max_normalization_tool_calls": 60,
+  "timeout_seconds": 14400,
+  "recursion_limit": 600,
+  "max_subagent_calls": 1200,
+  "eval_timeout_seconds": 3600,
+  "max_ptc_calls": 2048,
+  "offline": false
+}

@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "HypothesisDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "cell_text": {
+          "minLength": 1,
+          "title": "Cell Text",
+          "type": "string"
+        },
+        "direction": {
+          "description": "Direction of the named cellular process in process_text, or the cellular quality in quality_text when process_text is empty; not the polarity of the input radiographic/clinical phenotype.",
+          "enum": [
+            "increased",
+            "decreased",
+            "abnormal",
+            "absent",
+            "present",
+            "bidirectional",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "direction_id": {
+          "minLength": 1,
+          "title": "Direction Id",
+          "type": "string"
+        },
+        "mechanism": {
+          "minLength": 1,
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "model_knowledge_basis": {
+          "default": "",
+          "title": "Model Knowledge Basis",
+          "type": "string"
+        },
+        "process_text": {
+          "minLength": 1,
+          "title": "Process Text",
+          "type": "string"
+        },
+        "seed_evidence": {
+          "items": {
+            "$ref": "#/$defs/HypothesisSeedReference"
+          },
+          "minItems": 1,
+          "title": "Seed Evidence",
+          "type": "array"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "why_distinct": {
+          "minLength": 1,
+          "title": "Why Distinct",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "direction_id",
+        "cell_text",
+        "process_text",
+        "direction",
+        "mechanism",
+        "why_distinct",
+        "seed_evidence"
+      ],
+      "title": "HypothesisDraft",
+      "type": "object"
+    },
+    "HypothesisSeedReference": {
+      "additionalProperties": false,
+      "description": "The host locates seed quotations; legacy model offsets are discarded.",
+      "properties": {
+        "document_id": {
+          "description": "Exact document_id returned by read_document for the window containing this quote. Abstract PMID and full-text PMC documents are distinct sources even for the same paper.",
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "quote": {
+          "description": "One exact contiguous substring copied from a read window of the named document; never paraphrase or join fragments.",
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_id",
+        "quote"
+      ],
+      "title": "HypothesisSeedReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "diversity_rationale": {
+      "minLength": 1,
+      "title": "Diversity Rationale",
+      "type": "string"
+    },
+    "hypotheses": {
+      "items": {
+        "$ref": "#/$defs/HypothesisDraft"
+      },
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "limitation": {
+      "default": "",
+      "title": "Limitation",
+      "type": "string"
+    }
+  },
+  "required": [
+    "hypotheses",
+    "diversity_rationale"
+  ],
+  "title": "HypothesisBatch",
+  "type": "object"
+}

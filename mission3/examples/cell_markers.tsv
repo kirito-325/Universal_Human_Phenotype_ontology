@@ -1,0 +1,4 @@
+cell_id	cell_name	gene_symbol	marker_weight	specificity	reproducibility
+CL:1	Cell one	GENEB	1.0	1.0	1.0
+CL:2	Cell two	GENEC	0.2	1.0	1.0
+

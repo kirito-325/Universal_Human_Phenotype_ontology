@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "cell_confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unmapped"
+      ],
+      "title": "Cell Confidence",
+      "type": "string"
+    },
+    "cl_id": {
+      "title": "Cl Id",
+      "type": "string"
+    },
+    "go_id": {
+      "title": "Go Id",
+      "type": "string"
+    },
+    "process_confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unmapped"
+      ],
+      "title": "Process Confidence",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "cl_id",
+    "go_id",
+    "cell_confidence",
+    "process_confidence",
+    "rationale"
+  ],
+  "title": "OntologySelection",
+  "type": "object"
+}
