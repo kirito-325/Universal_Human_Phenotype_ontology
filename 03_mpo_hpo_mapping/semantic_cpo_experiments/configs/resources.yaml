@@ -1,0 +1,36 @@
+project_root: ../..
+module_root: 03_mpo_hpo_mapping/semantic_cpo_experiments
+benchmark:
+  root: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen
+  diseases: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  gold_models: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: 04_downstream_evaluation/mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+mission3:
+  project_root: 04_downstream_evaluation/gene_prioritization
+  source_root: 04_downstream_evaluation/gene_prioritization/src
+  config_2602: 04_downstream_evaluation/gene_prioritization/configs/real_frozen_parameter_free_2602.yaml
+  baseline_output_2602: 04_downstream_evaluation/gene_prioritization/outputs/parameter_free_2602
+  exomiser_2602_matrix: 04_downstream_evaluation/gene_prioritization/data/external/exomiser_2602/current_matrix/hp_mp_mappings_2602.tsv.gz
+  exomiser_2602_presence: 04_downstream_evaluation/gene_prioritization/data/external/exomiser_2602/current_matrix/candidate_mpo_presence_2602.tsv
+mission4:
+  root: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2
+  hpo_index: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/indices/hpo_index.tsv
+  mpo_index: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/indices/mpo_index.tsv
+  assertions: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/normalized/assertions.parquet
+  structure_membership: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/profiles/structure_membership.parquet
+  structure_provenance: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/profiles/structure_provenance.parquet
+  legacy_matrix: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/matrices/hpo_mpo_cpo.h5
+  run_manifest: 03_mpo_hpo_mapping/cpo_profile_similarity/results/cpo_mapping_gene_v2/run_manifest.json
+ontologies:
+  hpo: data/ontologies/hp.obo
+  mpo: data/ontologies/mp.obo
+  cl: 01_cpo_construction/cl_skeleton/cell_ontology/cl-basic.obo
+  go: data/ontologies/go-basic.obo
+encoder:
+  path: data/models/sapbert
+  revision: 090663c3ae57bf35ffe4d0d468a2a88d03051a4d
+legacy_semantics:
+  vectors: 03_mpo_hpo_mapping/semantic_cpo_experiments/data/legacy_semantics/phenotype_semantics.npz
+  manifest: 03_mpo_hpo_mapping/semantic_cpo_experiments/data/legacy_semantics/training_manifest.json

@@ -1,0 +1,26 @@
+project:
+  name: CellPhenoRank Huntington disease single-cell validation
+  random_seed: 2026
+inputs:
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+single_cell:
+  disease_id: ORPHA:399
+  candidate_gene: HTT
+  evidence_paths: ../gene_prioritization/outputs/hd_case/reranking/evidence_paths.tsv
+  datasets:
+  - /path/to/workspace/mission2/data/hd_reference_processed/GSE180928_donor_celltype_pseudobulk.h5ad
+  - /path/to/workspace/mission2/data/hd_reference_processed/GSE281069_donor_celltype_pseudobulk.h5ad
+  dataset_ids:
+  - GSE180928
+  - GSE281069
+  label_map: data/cases/hd_single_cell_label_map.tsv
+  cl_obo: ../../01_cpo_construction/cl_skeleton/cell_ontology/cl-basic.obo
+  donor_column: donor_id
+  condition_column: condition
+  cell_type_column: harmonized_cell_type
+  cell_count_column: cell_count
+  disease_value: hd
+  control_value: control
+  min_donors_per_condition: 4
+  top_functions: 5
+  random_iterations: 100

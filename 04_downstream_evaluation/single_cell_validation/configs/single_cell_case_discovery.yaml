@@ -1,0 +1,16 @@
+project:
+  name: CellPhenoRank prediction-driven single-cell case discovery
+  random_seed: 2026
+  evaluation_mode: exploratory_scan
+inputs:
+  a4_rankings: ../gene_prioritization/outputs/parameter_free_2602/reranking/extended_constrained_rankings.tsv
+  a5_rankings: ../gene_prioritization/outputs/parameter_free_2602/bridge_loo/bridge_loo_rankings.tsv
+  evidence_paths_extended: ../gene_prioritization/outputs/parameter_free_2602/cpo_enrichment/raw_evidence_paths_extended.tsv
+  gold_standard: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+case_discovery:
+  ranking_arm: A4_extended_constrained
+  bridge_arm: A5_bridge_loo
+  require_frozen_gold_gene: true
+  require_complete_function_path: true
+  selection_used_expression_values: false

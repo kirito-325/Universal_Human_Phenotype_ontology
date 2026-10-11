@@ -1,16 +1,15 @@
-# 研究状态与证据边界
+# 研究状态
 
-代码快照日期：2026-10-11。本页区分已实现功能与原实验记录；此次整理未调用付费模型、重建真实矩阵或执行新生物学评测。
+快照日期：2026-10-11。本轮只重构代码组织、导入、配置与运行入口，没有执行付费调研或重新计算真实数据结果。
 
-| 工作 | 状态 | 结论边界 |
-| --- | --- | --- |
-| HPO/MPO agent | 2026-10-10 已拆分为独立包 | HPO 是人类机制推理，MPO 是逐基因型研究；不代表已有全量新映射 |
-| 10 对先导对接 | 调研暂停，中间层对接尚未运行 | 2 对机制候选未被确认，不能作为金标准阳性 |
-| GO–CL 构建 | 现有 README 记录全量范围判定及精确细胞链接 | 原快照结果未随代码上传，不能视为本次重新验证 |
-| CellPhenoRank | 保留较新重排、基线与单细胞验证代码 | 数值与限制见原研究摘要；新 agent 尚未接入重跑 |
-| 无训练语义/CPO 基准 | 现有开发报告建议纯语义 P0 为默认 | 探索方案的 MRR 增量仅 +0.000476，置信区间跨零；不能宣称机制收益 |
-| 结构嵌入映射 | **方法落后，已弃用，不采用，待更新** | 只保留一次历史方法快照，不用作当前推荐方法 |
+| 模块 | 状态与限制 |
+| --- | --- |
+| CPO 构建 | 骨架、GO–CL 与文献 Marker 组件分别维护；真实资源不上传 |
+| HPO/MPO–CPO | 当前 agent 主线；两端独立调研并保留来源与条件 |
+| MPO–HPO | 旧探索仍在；结构嵌入明确弃用；尚未接入最新 agent |
+| 双端先导 | 20 个术语的调研暂停，完整对接未运行；候选机制不是 gold positive |
+| 下游评估 | 历史快照结果与初步验证，不代表当前 agent 的效果 |
 
-初步结果的原研究说明保留在 [CellPhenoRank 当前结果](../mission3/CellPhenoRank_current_results.md)、[单细胞验证结果](../mission3/CellPhenoRank_single_cell_validation_results.md) 和 [小鼠模型排序状态](../CPO_generize/mission3/REAL_DATA_STATUS.md)。这些是源实验的摘要，不包含原始结果文件，也不是重新计算的指标。
+无训练语义/CPO 开发实验仍建议纯语义 P0 为默认；探索性 MRR 增量 +0.000476 的置信区间跨零，不能据此宣称机制收益。
 
-后续完整验证需固定新 agent 的代码与数据版本、验证输出转换、冻结独立队列和 gold，然后运行语义基线、CPO 消融及适当负对照。代码可运行、解释看似合理、共享 GO/CL 和排名提升分别是不同层次的证据。
+源实验说明见 [基因排序结果](../04_downstream_evaluation/gene_prioritization/CellPhenoRank_current_results.md)、[单细胞验证结果](../04_downstream_evaluation/single_cell_validation/docs/CellPhenoRank_single_cell_validation_results.md) 和 [小鼠模型排序状态](../04_downstream_evaluation/mouse_model_prioritization/REAL_DATA_STATUS.md)。

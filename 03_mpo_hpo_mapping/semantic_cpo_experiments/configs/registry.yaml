@@ -1,0 +1,82 @@
+registry_id: semantic_cpo_training_free_v1
+training:
+  enabled: false
+view: V_self
+quality:
+  id: Q_availability_v1
+  interpretation: record_availability_not_evidence_reliability
+  accepted_statement_status:
+  - asserted
+  accepted_relation_roles:
+  - associated
+  - causal_upstream
+  - constituent
+  - equivalent
+  - mechanistic_compatible
+semantics:
+  id: sapbert_mean_pool_template_v1
+  template: 'Name: <preferred label>
+
+    Exact synonyms: <deduplicated exact synonyms>
+
+    Definition: <ontology definition>'
+  max_length: 96
+  batch_size: 64
+  scale: clipped_nonnegative_cosine
+ontology:
+  relations:
+  - is_a
+  go_namespace: biological_process
+  ic: intrinsic_descendant
+  node_methods:
+  - exact
+  - lin
+  - global_resnik
+  - ic_ancestor_jaccard
+atoms:
+  methods:
+  - A0
+  - A1
+  - A2
+  - A3
+  - A4
+  - A5
+direction:
+  opposed_multiplier: 0.0
+  other_multiplier: 1.0
+profiles:
+  methods:
+  - bma
+  - ic_bma
+  - mutual_best
+  - one_to_one
+  - balanced_ot
+fusion:
+  epsilon: 0.05
+  methods:
+  - positive
+  - linear
+  - bounded_geometric
+  - amplitude_gated_rank
+selection:
+  primary: mrr
+  tie_breakers:
+  - ndcg_at_10
+  - recall_at_1
+  - lower_runtime
+  - method_id
+  stage_anchors:
+  - positive
+  - linear
+  atom_finalists: 2
+  mechanism_finalists: 2
+rank_reference:
+  mode: fixed_hash_panel
+  max_terms_per_ontology: 256
+  hash_seed: semantic_cpo_rank_panel_v1
+controls:
+  bootstrap_repeats: 2000
+  permutation_repeats: 20
+  seeds_file: configs/seeds.json
+project_root: ../..
+module_root: 03_mpo_hpo_mapping/semantic_cpo_experiments

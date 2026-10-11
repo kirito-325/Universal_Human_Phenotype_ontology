@@ -1,0 +1,17 @@
+project:
+  name: CellPhenoRank prediction-driven single-cell case preflight
+  random_seed: 2026
+  evaluation_mode: exploratory_scan
+inputs:
+  candidate_table: outputs/single_cell_case_exploration/discovery/case_candidate_table.tsv
+  dataset_evidence: data/cases/single_cell_dataset_discovery_evidence.tsv
+  dataset_catalog: outputs/single_cell_case_exploration/discovery/single_cell_dataset_catalog.tsv
+  case_dataset_status: outputs/single_cell_case_exploration/preflight/case_dataset_pair_status.tsv
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+metadata_preflight:
+  min_practical_feature_coverage: 0.8
+  min_strict_function_genes: 5
+  expression_values_permitted: false
+case_freeze:
+  random_gene_set_iterations: 1000
+  selection_used_expression_values: false

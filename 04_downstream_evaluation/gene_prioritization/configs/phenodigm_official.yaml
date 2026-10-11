@@ -1,0 +1,20 @@
+project:
+  name: Official IMPC PhenoDigm frozen-candidate benchmark
+  random_seed: 2026
+  evaluation_mode: frozen_benchmark
+inputs:
+  diseases: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  gold_standard: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+  current_baseline: outputs/parameter_free/baseline/base_gene_rankings.tsv
+phenodigm:
+  endpoint: https://www.ebi.ac.uk/mi/impc/solr/phenodigm/select
+  rows: 100000
+  timeout_seconds: 60
+  retries: 3
+candidate_models:
+  attribution_policy: single_gene_only
+benchmark:
+  bootstrap_iterations: 10000

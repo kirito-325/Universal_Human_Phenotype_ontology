@@ -1,15 +1,18 @@
-# 同步来源与取舍
+# 重构与来源
 
-本次从原工作区导出当前代码到独立 Git 仓库，未改写原项目。GitHub 目标仓库同步前为空；未导入其他本地仓库的历史，以免带入旧凭据、数据或多余版本。
+本轮基于提交 `40fd138`，将混合工作区重组为四个实际代码模块。原工作区未修改。完整移动清单见 [reorganization.json](reorganization.json)，最初同步来源见 [source_inventory.json](source_inventory.json)。
 
-详细来源映射见 [source_inventory.json](source_inventory.json)。该文件记录初始筛选来源，不是整理后逐文件哈希清单。
+主要调整：
 
-保留当前 `src/`、相关脚本、测试、schema、配置、上游许可、小型合成示例和结果摘要。补齐了原文献目录构建器引用的 CL 骨架源码，以及无训练基准所依赖的较新独立 CellPhenoRank 代码。
+- 将 CL 骨架、GO–CL 判定和文献 Marker 集中到第一模块的三个任务。
+- 将两个 agent、各自的旧关系表整理/继承工具及联合审核集中到第二模块。
+- 将先导双端调研、结构嵌入、profile 相似度和无训练语义/CPO 实验集中到第三模块。
+- 将基因排序、模型排序、单细胞验证、CPO 疾病/基因预测分成第四模块的四个任务。
+- 从 CellPhenoRank 中拆出单细胞分析、病例冻结、发现、图表、配置和测试；从原 `mission4` 拆出疾病模型、基因排名与评估代码。
+- 用根目录 editable 包注册和统一路径替代旧目录之间的隐式依赖；配置路径不再依赖终端当前目录。
+- 科学计算任务使用根目录唯一的安装清单；两个 agent 继续独立安装。各任务测试可由 `scripts/run_tests.py` 统一调度。
+- 删除旧 `CPO_generize/UHPO` 的重复整合副本；当前组件各保留一处实现，旧副本仍可在 Git 历史及原工作区找到。
 
-不收录原项目的 `.env`、远程机器配置、LaunchAgent plist、数据库、运行轨迹、文献正文、数据快照、权重、缓存、备份、旧 HPO_link v1–v6 代码和旧映射 v1/v3。后两类只作为既有数据接口在配置中出现。结构嵌入仅保留晚融合 v2 快照，移动到 `legacy/MPO_HPO_mapping`。
+没有改写科研评分、阈值、队列或已有结果数值。新的模块接口不意味着新 agent 的 JSONL 已接入旧 TSV 流程；这项工作仍待实现。
 
-为减少对科研逻辑的影响，未统一改写算法或包名。可读性调整集中于模块导航、主线/历史状态、目录补齐、密钥与路径清理、先导运行入口和仓库检查。原绝对路径替换为明确占位符；主线目录构建器使用仓库内路径；先导脚本使用正常安装环境和公开示例配置。语义召回中的 Torch/Transformers 改为在实际编码时导入，纯规则检查无需加载模型依赖。
-
-基准准备脚本及 schema 保留在 `CPO_generize/mission3/skills/build-rare-disease-mouse-benchmark/` 的 scripts、assets 和 references 子目录，供既有测试与工具调用；没有执行其中的文献调研。较新 CellPhenoRank 的合成输入从原 `data/example` 移到公开的 `mission3/examples`，配置和测试引用同步更新。
-
-第三方 agent 组件保留 `UPSTREAM.md`、`THIRD_PARTY_NOTICES.md` 及包内 `upstream/LICENSE`。上游数据许可不因代码整理而改变。
+不上传真实数据、凭据、远程机器配置、数据库、权重、日志或缓存。上游 agent 的 notices 与许可继续随包保留。

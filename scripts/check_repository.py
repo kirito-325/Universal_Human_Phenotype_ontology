@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+OLD_WORKSPACES = {"CPO_generize", "CPO_mapping", "CPO_construction", "marker_literuture", "mission3", "legacy"}
 BLOCKED_DIRS = {
     "data", "database", "logs", "runs", "archives", ".trash", "work", "results",
     "outputs", "output", "expanded", "name_mapping", "__pycache__", ".venv",
@@ -53,6 +54,8 @@ def main() -> int:
         relative = path.relative_to(ROOT)
         if not path.exists():
             continue
+        if relative.parts[0] in OLD_WORKSPACES:
+            failures.append(f"{relative}: task code is still in an old mixed workspace")
         if path.is_symlink():
             failures.append(f"{relative}: symlink outside a self-contained snapshot")
             continue

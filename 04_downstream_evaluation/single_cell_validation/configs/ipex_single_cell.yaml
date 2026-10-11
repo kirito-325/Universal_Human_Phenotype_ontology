@@ -1,0 +1,48 @@
+project:
+  name: IPEX GSE167976 leakage-controlled single-cell validation
+  random_seed: 2026
+inputs:
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+  cell_markers: ../../01_cpo_construction/cell_marker_mining/marker_statistics/significant_marker_scores.tsv
+single_cell:
+  case_manifest: data/cases/ipex_case_frozen/case_manifest.json
+  candidate_gene: FOXP3
+  datasets:
+  - data/single_cell/ipex_gse167976/processed/GSE167976_cohort1_donor_celltype_pseudobulk.h5ad
+  - data/single_cell/ipex_gse167976/processed/GSE167976_cohort2_disjoint_donor_celltype_pseudobulk.h5ad
+  dataset_ids:
+  - GSE167976_cohort1
+  - GSE167976_cohort2_disjoint
+  label_map: data/cases/ipex_single_cell_label_map.tsv
+  cl_obo: ../../01_cpo_construction/cl_skeleton/cell_ontology/cl-basic.obo
+  donor_column: donor_id
+  condition_column: condition
+  cell_type_column: cell_type
+  cell_count_column: cell_count
+  disease_value: ipex
+  control_value: control
+  min_donors_per_condition: 4
+  min_cells_per_profile: 20
+  min_function_genes: 5
+  min_function_gene_coverage: 0.8
+  max_ontology_distance: 0
+  module_score_mode: gene_zscore
+  random_iterations: 1000
+  random_gene_match_bins: 10
+  min_random_gene_set_percentile: 0.95
+  identity_marker_top_n: 50
+  identity_control_labels:
+  - Tconv_resting
+  - Tconv_activated
+  composition_exclude_labels:
+  - T_cell_all
+  specificity_exclude_labels:
+  - T_cell_all
+  causal_gene_validation:
+    enabled: true
+    gene_symbol: FOXP3
+    prediction_role: practical_positive_control
+    reference_labels:
+    - Tconv_resting
+    - Tconv_activated
+    min_detection_fraction: 0.8

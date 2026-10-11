@@ -3,83 +3,87 @@
   "sources": [
     {
       "source": "life-sci-agent/hpo-agent",
-      "destination": "CPO_mapping/hpo-agent",
+      "destination": "02_phenotype_cpo_mapping/hpo_cpo",
       "files": 101
     },
     {
       "source": "life-sci-agent/mpo-agent",
-      "destination": "CPO_mapping/mpo-agent",
+      "destination": "02_phenotype_cpo_mapping/mpo_cpo",
       "files": 62
     },
     {
       "source": "life-sci-agent/aligment_test",
-      "destination": "CPO_mapping/aligment_test",
+      "destination": "03_mpo_hpo_mapping/agent_alignment",
       "files": 3
     },
     {
       "source": "marker_literuture",
-      "destination": "marker_literuture",
+      "destination": "01_cpo_construction/cell_marker_mining",
       "files": 58
     },
     {
       "source": "UHPO（6-8）/cell_lineage/scripts",
-      "destination": "CPO_construction/cell_lineage/scripts",
+      "destination": "01_cpo_construction/cl_skeleton/scripts",
       "files": 8
     },
     {
       "source": "mission3",
-      "destination": "mission3",
+      "destination": "04_downstream_evaluation/gene_prioritization",
       "files": 105
     },
     {
       "source": "CPO_generize/GO_link",
-      "destination": "CPO_generize/GO_link",
+      "destination": "01_cpo_construction/cl_go_linking/GO_link",
       "files": 10
     },
     {
       "source": "CPO_generize/GO_function",
-      "destination": "CPO_generize/GO_function",
+      "destination": "01_cpo_construction/cl_go_linking/GO_function",
       "files": 3
     },
     {
       "source": "CPO_generize/cell_marker",
-      "destination": "CPO_generize/cell_marker",
+      "destination": "01_cpo_construction/cell_marker_mining/cell_marker",
       "files": 3
     },
     {
       "source": "CPO_generize/celltype_configure",
-      "destination": "CPO_generize/celltype_configure",
+      "destination": "01_cpo_construction/cl_go_linking/celltype_configure",
       "files": 8
     },
     {
       "source": "CPO_generize/llm_api",
-      "destination": "CPO_generize/llm_api",
+      "destination": "shared/llm_api",
       "files": 2
     },
     {
       "source": "CPO_generize/mission3",
-      "destination": "CPO_generize/mission3",
+      "destination": "04_downstream_evaluation/mouse_model_prioritization",
       "files": 40
     },
     {
       "source": "CPO_generize/mission4",
-      "destination": "CPO_generize/mission4",
+      "destination": "03_mpo_hpo_mapping/cpo_profile_similarity",
       "files": 55
     },
     {
       "source": "CPO_generize/MPO_HPO_mapping_v4",
-      "destination": "CPO_generize/MPO_HPO_mapping_v4",
+      "destination": "03_mpo_hpo_mapping/semantic_cpo_experiments",
       "files": 27
     },
     {
       "source": "CPO_generize/MPO_HPO_mapping_v2",
-      "destination": "legacy/MPO_HPO_mapping",
+      "destination": "03_mpo_hpo_mapping/structural_embedding",
       "files": 21
-    },
+    }
+  ],
+  "excluded_duplicates": [
     {
       "source": "CPO_generize/UHPO",
       "destination": "CPO_generize/UHPO",
-      "files": 72
+      "files": 72,
+      "reason": "Removed duplicated integrated pipelines; use task-specific implementations."
     }
-  ]
+  ],
+  "layout_revision": "four_task_modules"
 }

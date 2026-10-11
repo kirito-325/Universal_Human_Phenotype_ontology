@@ -1,0 +1,32 @@
+project:
+  name: CellPhenoRank Huntington disease case
+  random_seed: 2026
+  evaluation_mode: practical
+filters:
+  disease_ids:
+  - ORPHA:399
+inputs:
+  diseases: data/cases/hd_disease_hpo.tsv
+  models: ../mouse_model_prioritization/data/processed/mgi_v3/models.tsv
+  model_phenotypes: ../mouse_model_prioritization/data/processed/mgi_v3/model_phenotypes.tsv
+  similarity: ../../03_mpo_hpo_mapping/semantic_cpo_experiments/data/legacy_semantics/mpo_hpo_mapping_v31.tsv
+  hpo_cpo: ../../02_phenotype_cpo_mapping/hpo_cpo/data/legacy_inputs/results/links/hpo_cpo_links.tsv.gz
+  cell_markers: ../../01_cpo_construction/cell_marker_mining/marker_statistics/significant_marker_scores.tsv
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+  gold_standard: data/cases/hd_gold.tsv
+similarity:
+  score_columns:
+  - bi_score
+  - score
+hpo_cpo:
+  confidence_column: geometric_consensus
+  min_confidence: 0.05
+  top_k_per_hpo: 25
+  general_scope_weight: 0.5
+rank_fusion:
+  lambda: 0.2
+benchmark:
+  bootstrap_iterations: 100
+null_models:
+  enabled: false
+  iterations: 0

@@ -42,6 +42,7 @@ expanded/
 name_mapping/
 tmp/
 embed/
+cell_ontology/
 *.sqlite
 *.sqlite3
 *.db

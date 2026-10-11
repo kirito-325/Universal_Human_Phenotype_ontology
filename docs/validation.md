@@ -1,41 +1,24 @@
-# 验证记录
+# 重构验证
 
-检查日期：2026-10-11。以下检查针对整理后的代码，使用模型替身、临时数据库及合成输入，没有发起真实文献调研或付费模型调用。
+检查日期：2026-10-11。所有测试按重构后的实际任务目录执行，未调用付费模型或运行真实数据实验。
 
-| 检查 | 结果 | 环境与范围 |
-| --- | --- | --- |
-| HPO Agent | 279 passed | Python 3.14.7；全部既有测试，含真实 Root/eval/task 调度与模型替身 |
-| MPO Agent | 97 passed | Python 3.14.7；全部既有测试，含模型隔离与聚合 |
-| 文献 Marker | 68 passed | Python 3.11.15；表格抽取、名称过滤、评分与证据浏览 |
-| CellPhenoRank | 39 passed | Python 3.11.15；包含合成端到端排序 |
-| 具体小鼠模型排序 | 19 passed | Python 3.11.15；含基准准备与 schema 验证 |
-| Mission4 CPO 比较 | 15 passed | Python 3.11.15；矩阵、方向、数据构建及浏览器 |
-| GO/CL 构建组件 | 51 passed | Python 3.11.15；所收录的相关测试，未执行 SapBERT 模型编码 |
-| 无训练基准 | 6 passed | Python 3.11.15；数学契约及无需真实数据的 provider 测试 |
-| 小鼠模型排序合成 CLI | 通过 | 写出 2 条模型排名，输出放在仓库之外 |
-| 文献发现 dry-run | 通过 | 生成 PubMed 查询，不发起网络请求 |
-| 发布内容检查 | 通过 | Python 编译、JSON 解析、数据/二进制排除、凭据及非回环 IP 检查 |
-| Markdown 本地链接 | 通过 | 不将未公开结果文件伪装为可点击文件 |
-| Git whitespace 检查 | 通过 | 保留 Markdown 换行和 TSV 空末字段的合法空白 |
+| 测试组 | 结果 |
+| --- | --- |
+| HPO–CPO agent | 279 passed |
+| MPO–CPO agent | 97 passed |
+| GO–CL 关系与功能基因组件 | 51 passed |
+| 文献 Marker 挖掘与分析 | 68 passed |
+| HPO/MPO 旧数据工具及审核浏览器 | 5 passed |
+| CPO profile 相似度 | 9 passed |
+| 无训练语义/CPO 数学与 provider 契约 | 6 passed |
+| CellPhenoRank 基因排序 | 29 passed |
+| 具体小鼠模型排序与冻结工具 | 19 passed |
+| 单细胞验证 | 10 passed |
+| CPO 疾病/基因预测 | 1 passed |
+| 仓库归属、跨目录导入、CLI 与配置 | 4 passed，另有 16 项 subtest |
 
-合计 **574 项测试通过**。Agent 验证复用了本机已有的匹配依赖；科学计算测试使用隔离的临时环境。没有把测试依赖缓存或环境提交到 Git。
+共 **578 项离线测试通过**。科学计算模块用 Python 3.11.15 的隔离环境执行统一 `scripts/run_tests.py --group scientific`，12 组全部通过；两个 agent 在 Python 3.14.7 中使用匹配的已有依赖验证。所有测试环境和缓存均未提交。
 
-典型复现命令（先按各模块安装依赖）：
+另完成以下检查：根目录 editable 安装成功；从临时目录调用五个 CLI 的 `--help`；配置路径不随工作目录改变；CellPhenoRank 合成 CLI 运行成功；50 个 Markdown 本地链接均可解析；Python 编译、JSON、敏感内容、旧目录归属与 Git whitespace 检查通过。
 
-```bash
-# 在相应 agent 目录分别执行
-python -m pytest
-# 在 marker_literuture、mission3、CPO_generize/mission3、CPO_generize/mission4 分别执行
-python -m pytest
-# 在 CPO_generize 执行
-python -m pytest tests
-# 在 CPO_generize/MPO_HPO_mapping_v4 执行
-PYTHONPATH=src python -m pytest tests/test_math_contracts.py \
-  tests/test_real_execution_contracts.py::RealExecutionContractTests::test_provider_accepts_term_ids_only
-# 在仓库根目录执行
-python scripts/check_repository.py
-```
-
-模型服务或本体数据版本变化后的结果不由这些离线检查保证。GitHub Actions 仅运行标准库发布检查，不自动触发付费调研或全量科研实验。
-
-不在本次验证范围：付费模型调研、真实数据全量运行、完整矩阵生成、历史嵌入训练、需要原结果的执行契约测试，以及新 agent 与旧下游输入之间的转换。
+不覆盖付费文献调研、真实矩阵生成、历史嵌入训练或新 agent 到旧下游格式的转换。

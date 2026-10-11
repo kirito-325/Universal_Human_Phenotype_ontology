@@ -1,0 +1,30 @@
+project:
+  name: Exomiser 2602 current PhenoDigm matrix benchmark
+  random_seed: 2026
+  evaluation_mode: frozen_benchmark
+inputs:
+  diseases: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  gold_standard: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+  current_baseline: outputs/parameter_free/baseline/base_gene_rankings.tsv
+  official_phenodigm_rankings: outputs/phenodigm_official/official/phenodigm_gene_rankings.tsv
+  phenodigm_legacy_matrix: data/external/exomiser_2602/current_matrix/hp_mp_mappings_2602.tsv.gz
+  phenodigm_legacy_mpo_presence: data/external/exomiser_2602/current_matrix/candidate_mpo_presence_2602.tsv
+candidate_models:
+  attribution_policy: single_gene_only
+phenodigm_matrix:
+  profile_mode: exomiser_current
+  method_label: exomiser_2602_PhenoDigm
+  report_title: Exomiser 2602 current PhenoDigm matrix benchmark
+  report_description: This run applies the current Exomiser PhenoDigm scorer to frozen local HPO and mouse-model profiles
+    using the Exomiser 2602 HP-MP matrix.
+  interpretation_boundary: The pair matrix and scorer correspond to Exomiser 2602. Disease HPO and mouse genotype profiles
+    remain fixed by the local benchmark, so this is a controlled local-input evaluation rather than a replay of IMPC live
+    disease profiles.
+  limitations:
+  - The 2602 matrix uses HPO 2026-01-08 and MP 2026-01-27; the frozen profiles were assembled later.
+  - The local frozen disease profiles differ from the live IMPC disease annotation profiles.
+benchmark:
+  bootstrap_iterations: 10000

@@ -1,0 +1,80 @@
+project:
+  name: CellPhenoRank mission4 CPO surface plus parameter-free CPO reranking
+  random_seed: 2026
+  evaluation_mode: frozen_benchmark
+inputs:
+  diseases: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/models.tsv
+  model_phenotypes: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/model_phenotypes.tsv
+  similarity: data/external/mission4_cpo_v2/frozen_benchmark_v4/hp_mp_mappings_final_shape.tsv.gz
+  phenodigm_mpo_presence: data/external/mission4_cpo_v2/frozen_benchmark_v4/candidate_mpo_presence.tsv
+  hpo_cpo: ../../02_phenotype_cpo_mapping/hpo_cpo/data/legacy_inputs/results/links/hpo_cpo_links.tsv.gz
+  cell_markers: ../../01_cpo_construction/cell_marker_mining/marker_statistics/significant_marker_scores.tsv
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+  gold_standard: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  freeze_manifest: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/freeze_manifest.json
+  hpo_obo: ../mouse_model_prioritization/data/raw/hpo/hp.obo
+  hpo_background: ../mouse_model_prioritization/data/raw/hpo/phenotype.hpoa
+  legacy_output_dir: outputs/real_frozen
+surface_baseline:
+  method: exomiser_2602_current
+  matrix_release: mission4_cpo_v2_final_shape
+  profile_formula: current_exomiser_semi_symmetric
+  controlled_change: pairwise_hpo_mpo_similarity_only
+candidate_models:
+  attribution_policy: single_gene_only
+  multi_gene_models: extended_sensitivity_only
+reranking:
+  method: cpo_enrichment_constrained
+  primary_graph: strict
+  run_extended_sensitivity: true
+  use_continuous_hpo_cpo_weights: false
+  use_marker_as_primary_evidence: false
+  final_score_is_rank_display_only: true
+hpo_reduction:
+  remove_duplicates: true
+  remove_ancestor_when_descendant_present: true
+  cluster_semantic_siblings: false
+  use_uniform_weights: true
+cpo_graph:
+  function_set_scope: go_global
+  strict:
+    accepted_scopes:
+    - cell_type_specific
+    accepted_cl_go_status:
+    - supported
+    - llm_supported
+    - confirmed
+    accepted_anatomy_status:
+    - allowed
+    - compatible
+  extended:
+    accepted_scopes:
+    - cell_type_specific
+    - cell_general
+cpo_enrichment:
+  background_scope: frozen_hpoa
+  test: hypergeometric_greater
+  fdr_method: fdr_bh
+  fdr_used_for_ranking: false
+phenotype_stability:
+  method: leave_one_hpo_out
+  phenotype_score: mission4_cpo_v2_with_exomiser_current_profile_formula
+  dominance_rule: higher_rank_in_every_valid_run
+  ties_create_constraint: false
+  invalid_run_policy: skip
+  single_hpo_policy: preserve_full_dense_order
+priority_order:
+- cpo_enrichment_pvalue_ascending
+- supported_hpo_count_descending
+- supported_cpo_count_descending
+- concordant_cpo_count_descending
+- raw_function_path_count_descending
+- base_rank_ascending
+- gene_symbol_ascending
+leakage_control:
+  run_practical: true
+  run_bridge_loo: true
+  run_indirect_only: false
+benchmark:
+  bootstrap_iterations: 1000

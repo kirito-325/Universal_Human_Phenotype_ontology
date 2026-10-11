@@ -1,0 +1,19 @@
+adapter_id: cellphenorank_exomiser_current_profile_v1
+candidate_models:
+  attribution_policy: single_gene_only
+hpo_reduction:
+  source: results/r0_baseline_reproduction/exomiser_2602/hpo/nonredundant_disease_hpo.tsv
+profile_formula: current_exomiser_semi_symmetric
+normalization:
+  combined: min(100, (raw_avg/ideal_avg + raw_max/ideal_max) * 50)
+gene_aggregation:
+  method: best_model_per_gene
+  model_tie_breaker: model_id
+gene_ranking:
+  method: ordinal
+  tie_breaker: gene_symbol
+extended_reranker:
+  source_config: 04_downstream_evaluation/gene_prioritization/configs/real_frozen_parameter_free_2602.yaml
+  arm: A4_extended_constrained
+project_root: ../..
+module_root: 03_mpo_hpo_mapping/semantic_cpo_experiments

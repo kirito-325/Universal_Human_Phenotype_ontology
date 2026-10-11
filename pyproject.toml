@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uhpo-research"
+version = "0.2.0"
+description = "Task-organized UHPO construction, mapping and evaluation research"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+scientific = [
+  "numpy>=1.26", "pandas>=2.0", "scipy>=1.11", "networkx>=3.0", "obonet>=1.0",
+  "PyYAML>=6.0", "h5py>=3.10", "pyarrow>=14", "jsonschema>=4.0",
+  "anndata>=0.10", "matplotlib>=3.8", "scikit-learn>=1.3",
+  "openpyxl>=3.1", "python-docx>=1.1", "xlrd>=2.0",
+]
+embedding = ["torch>=2.0", "transformers>=4.40"]
+test = ["pytest>=8", "pytest-asyncio>=1"]
+
+[project.scripts]
+cellphenorank = "cellphenorank.cli:main"
+uhpo-mouse-models = "mission3.cli:main"
+uhpo-cpo-similarity = "cpo_pipeline.__main__:main"
+uhpo-cpo-prediction = "uhpo_prediction.__main__:main"
+
+[tool.setuptools]
+packages = [
+  "uhpo_common", "llm_api", "GO_link", "GO_function", "cell_marker",
+  "celltype_configure", "celltype_configure.database_depend", "celltype_configure.text_depend",
+  "literature_pipeline", "cpo_mapping", "cpo_pipeline", "semantic_cpo", "mission3",
+  "cellphenorank", "cellphenorank_validation", "cellphenorank_validation.discovery",
+  "uhpo_prediction", "mpo_hpo_mapping",
+]
+
+[tool.setuptools.package-dir]
+uhpo_common = "shared/uhpo_common"
+llm_api = "shared/llm_api"
+GO_link = "01_cpo_construction/cl_go_linking/GO_link"
+GO_function = "01_cpo_construction/cl_go_linking/GO_function"
+celltype_configure = "01_cpo_construction/cl_go_linking/celltype_configure"
+cell_marker = "01_cpo_construction/cell_marker_mining/cell_marker"
+literature_pipeline = "01_cpo_construction/cell_marker_mining/literature_pipeline"
+cpo_mapping = "03_mpo_hpo_mapping/cpo_profile_similarity/cpo_mapping"
+cpo_pipeline = "03_mpo_hpo_mapping/cpo_profile_similarity/cpo_pipeline"
+semantic_cpo = "03_mpo_hpo_mapping/semantic_cpo_experiments/src/semantic_cpo"
+mpo_hpo_mapping = "03_mpo_hpo_mapping/structural_embedding/src/mpo_hpo_mapping"
+mission3 = "04_downstream_evaluation/mouse_model_prioritization/src/mission3"
+cellphenorank = "04_downstream_evaluation/gene_prioritization/src/cellphenorank"
+cellphenorank_validation = "04_downstream_evaluation/single_cell_validation/src/cellphenorank_validation"
+uhpo_prediction = "04_downstream_evaluation/cpo_disease_gene_prediction/src/uhpo_prediction"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

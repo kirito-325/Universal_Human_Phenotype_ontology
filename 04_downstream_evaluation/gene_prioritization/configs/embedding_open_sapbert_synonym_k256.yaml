@@ -1,0 +1,53 @@
+project:
+  name: SapBERT exact-synonym-centroid open MGI benchmark K256
+  random_seed: 2026
+  evaluation_mode: open_candidate_benchmark
+inputs:
+  diseases: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/diseases.tsv
+  models: ../mouse_model_prioritization/data/processed/mgi_v3/models.tsv
+  model_phenotypes: ../mouse_model_prioritization/data/processed/mgi_v3/model_phenotypes.tsv
+  gold_standard: ../mouse_model_prioritization/data/benchmark/benchmark_v4/frozen/gold_models.tsv
+  open_candidate_manifest: data/benchmark/open_mgi_50_v1/open_candidate_manifest.json
+  similarity: data/embeddings/sapbert_exact_synonym_open_mgi_50_v1.npz
+  hpo_obo: ../mouse_model_prioritization/data/raw/hpo/hp.obo
+  hpo_background: ../mouse_model_prioritization/data/raw/hpo/phenotype.hpoa
+  hpo_cpo: ../../02_phenotype_cpo_mapping/hpo_cpo/data/legacy_inputs/results/links/hpo_cpo_links.tsv.gz
+  cell_markers: ../../01_cpo_construction/cell_marker_mining/marker_statistics/significant_marker_scores.tsv
+  go_functions: ../../01_cpo_construction/cl_go_linking/GO_function/results/go_function_genes.tsv
+similarity:
+  provider: embedding
+  top_mpo_per_hpo: 256
+  min_cosine: 0.0
+  missing_pair_score: 0.0
+surface_baseline:
+  method: embedding_bma
+  embedding_model: cambridgeltl/SapBERT-from-PubMedBERT-fulltext
+  representation: exact_synonym_centroid_cls
+model_scoring:
+  reverse_match_weight: 1.0
+  bma_weight: 0.8
+  max_pair_weight: 0.2
+  match_threshold: 0.0
+open_benchmark:
+  rerank_top_k: 200
+  write_model_scores: false
+  write_pair_evidence: false
+  write_cpo_paths: false
+cpo_graph:
+  function_set_scope: go_global
+  strict:
+    accepted_scopes:
+    - cell_type_specific
+    accepted_cl_go_status:
+    - supported
+    - llm_supported
+    - confirmed
+    accepted_anatomy_status:
+    - allowed
+    - compatible
+  extended:
+    accepted_scopes:
+    - cell_type_specific
+    - cell_general
+benchmark:
+  bootstrap_iterations: 1000
